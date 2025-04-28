@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
-// Importando o serviço real
-import { ClientService } from '../../core/services/client.service';
+// Importando o serviço real com caminho corrigido
+import { ClientService } from '../../../core/services/client.service';
 
 @Component({
   selector: 'app-client-list',

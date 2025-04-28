@@ -1,10 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* Corrected PrimeNG style imports for newer versions */
-@import "primeng/resources/themes/lara-light-blue/theme.css"; 
-@import "primeng/resources/primeng.min.css"; /* Use minified version */
-@import "primeicons/primeicons.css";
+/* Estilos básicos para substituir as importações do PrimeNG que estão causando problemas */
+:root {
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --surface-ground: #f8f9fa;
+  --text-color: #495057;
+  --surface-card: #ffffff;
+  --primary-color: #3B82F6;
+}
 
+/* Estilos básicos para o corpo da página */
 body {
   font-family: var(--font-family);
   margin: 0;
@@ -30,4 +35,44 @@ body {
 .page-title {
   color: var(--primary-color);
   margin-bottom: 1.5rem;
+}
+
+/* Estilos básicos para botões */
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* Estilos básicos para formulários */
+input, select, textarea {
+  padding: 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Estilos básicos para tabelas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e9ecef;
+  text-align: left;
+}
+
+th {
+  background-color: #f8f9fa;
+  font-weight: 600;
 }

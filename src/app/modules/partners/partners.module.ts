@@ -14,7 +14,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputMaskModule } from 'primeng/inputmask';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextarea } from 'primeng/inputtextarea'; // Corrected import name
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
@@ -34,7 +34,7 @@ import { ToastModule } from 'primeng/toast';
     DialogModule,
     DropdownModule,
     InputMaskModule,
-    InputTextareaModule,
+    InputTextarea, // Corrected usage
     ConfirmDialogModule,
     RippleModule,
     ToastModule

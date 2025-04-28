@@ -214,7 +214,7 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/core@^18.2.13":
+"@angular/core@^18.2.0":
   version "18.2.13"
   resolved "https://registry.yarnpkg.com/@angular/core/-/core-18.2.13.tgz#50a4269386201b31105dffd6e14c84ca29859cd9"
   integrity sha512-8mbWHMgO95OuFV1Ejy4oKmbe9NOJ3WazQf/f7wks8Bck7pcihd0IKhlPBNjFllbF5o+04EYSwFhEtvEgjMDClA==
@@ -1338,6 +1338,13 @@
   version "0.23.0"
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.23.0.tgz#db44a6a08520b5f25bbe409f34a59f2d4bcc7ced"
   integrity sha512-Arm+WgUFLUATuoxCJcahGuk6Yj9Pzxd6l11Zb/2aAuv5kWWvvfhLFo2fni4uSK5vzlUdCGZ/BdV5tH8klj8p8g==
+
+"@fullcalendar/angular@^6.1.17":
+  version "6.1.17"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/angular/-/angular-6.1.17.tgz#6e4e961aa05961ad9415545462c1198c7fad2541"
+  integrity sha512-1XSiT62/KItFZCtecuqcxd0mxctQQcJuJbXfLFPjGG9Ycz6+af+bC0Ch89W+uYSPkGrmk7tczELouckJLSJm2Q==
+  dependencies:
+    tslib "^2.3.0"
 
 "@fullcalendar/core@^6.1.17":
   version "6.1.17"
@@ -5506,10 +5513,10 @@ primeicons@^7.0.0:
   resolved "https://registry.yarnpkg.com/primeicons/-/primeicons-7.0.0.tgz#6b25c3fdcb29bb745a3035bdc1ed5902f4a419cf"
   integrity sha512-jK3Et9UzwzTsd6tzl2RmwrVY/b8raJ3QZLzoDACj+oTJ0oX7L9Hy+XnVwgo4QVKlKpnP/Ur13SXV/pVh4LzaDw==
 
-primeng@^19.1.0:
-  version "19.1.0"
-  resolved "https://registry.yarnpkg.com/primeng/-/primeng-19.1.0.tgz#b043da277f72a6e38c2b6e550f6df54ff25dedf8"
-  integrity sha512-xzPOvq6m0nyD3HQpqIgXmfTFqWiI4P9AIraRKjMdfwOruGzpimxf0iYJDgNNvJJvH32DwLZD6OnFTh3PaiP5Fg==
+primeng@^18.0.2:
+  version "18.0.2"
+  resolved "https://registry.yarnpkg.com/primeng/-/primeng-18.0.2.tgz#39ef8d100042dde32c6fd0d8463271d260e178c3"
+  integrity sha512-Tt4KmbstxRmrUdxvVjV1j/1L3SnN8QdkPdC5hRHWQjOCheX71BA0aQ7aTJ4CXZZuw6wiDKlb7Jrm0aqTixE7+A==
   dependencies:
     "@primeuix/styled" "^0.3.2"
     "@primeuix/utils" "^0.3.2"

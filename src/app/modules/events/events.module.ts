@@ -13,7 +13,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { CalendarModule as PrimeCalendarModule } from 'primeng/calendar'; // Alias
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextarea } from 'primeng/inputtextarea'; // Corrected import name
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TagModule } from 'primeng/tag';
@@ -35,7 +35,7 @@ import { ToastModule } from 'primeng/toast';
     InputTextModule,
     DialogModule,
     PrimeCalendarModule,
-    InputTextareaModule,
+    InputTextarea, // Corrected usage
     DropdownModule,
     MultiSelectModule,
     TagModule,

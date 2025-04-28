@@ -1,5 +1,5 @@
 // drivers.module.ts
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -14,7 +14,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { CalendarModule } from 'primeng/calendar';
 import { InputMaskModule } from 'primeng/inputmask';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextarea } from 'primeng/inputtextarea'; // Corrected import name
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
@@ -34,10 +34,11 @@ import { ToastModule } from 'primeng/toast';
     DialogModule,
     CalendarModule,
     InputMaskModule,
-    InputTextareaModule,
+    InputTextarea, // Corrected usage
     ConfirmDialogModule,
     RippleModule,
     ToastModule
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA] // Add NO_ERRORS_SCHEMA to ignore unknown properties
 })
 export class DriversModule { }

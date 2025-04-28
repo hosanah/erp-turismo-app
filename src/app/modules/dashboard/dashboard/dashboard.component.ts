@@ -7,11 +7,11 @@ import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { RippleModule } from 'primeng/ripple';
 
-// Placeholder services - replace with actual services later
-import { ClientService } from '../../core/services/client.service'; 
-import { EventService } from '../../core/services/event.service';
-import { SaleService } from '../../core/services/sale.service';
-import { DriverService } from '../../core/services/driver.service';
+// Placeholder services com caminhos corrigidos
+import { ClientService } from '../../../core/services/client.service'; 
+import { EventService } from '../../../core/services/event.service';
+import { SaleService } from '../../../core/services/sale.service';
+import { DriverService } from '../../../core/services/driver.service';
 
 @Component({
   selector: 'app-dashboard',

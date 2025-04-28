@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
-// Importando o serviço real
-import { DriverService } from '../../core/services/driver.service';
+// Importando o serviço real com caminho corrigido
+import { DriverService } from '../../../core/services/driver.service';
 
 @Component({
   selector: 'app-driver-list',

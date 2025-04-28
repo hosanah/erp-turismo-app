@@ -29,7 +29,7 @@
       "dom"
     ],
     "allowSyntheticDefaultImports": true,
-    "suppressImplicitAnyIndexErrors": true,
+    //"suppressImplicitAnyIndexErrors": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": false
   },
@@ -40,7 +40,7 @@
     "strictTemplates": false,
     "fullTemplateTypeCheck": false,
     "allowSyntheticDefaultImports": true,
-    "suppressImplicitAnyIndexErrors": true,
+    //"suppressImplicitAnyIndexErrors": true,
     "noImplicitAny": false,
     "strictNullChecks": false
   }

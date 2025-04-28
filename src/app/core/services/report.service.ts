@@ -50,4 +50,13 @@ export class ReportService {
   exportReportToExcel(reportType: string, filters: any): Observable<any> {
     return this.apiService.post(`${this.endpoint}/export/excel/${reportType}`, filters);
   }
+  
+  // Métodos de atalho para exportação (para compatibilidade com o componente)
+  exportPdf(filters: any): Observable<any> {
+    return this.exportReportToPdf(filters.reportType, filters);
+  }
+
+  exportExcel(filters: any): Observable<any> {
+    return this.exportReportToExcel(filters.reportType, filters);
+  }
 }

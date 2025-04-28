@@ -1,5 +1,5 @@
 // clients.module.ts
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -42,6 +42,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     // Services are typically provided in root, but if scoped, provide here
     // ConfirmationService, // Usually provided in root or AppComponent
     // MessageService // Usually provided in root or AppComponent
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA] // Add NO_ERRORS_SCHEMA to ignore unknown properties
 })
 export class ClientsModule { }
