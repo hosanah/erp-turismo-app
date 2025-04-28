@@ -1,0 +1,70 @@
+<!-- login.component.html -->
+<div class="login-container">
+  <div class="login-card">
+    <h2 class="login-title">ERP Turismo</h2>
+    <p-card>
+      <ng-template pTemplate="header">
+        <h3 class="text-center">Login</h3>
+      </ng-template>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="field">
+          <label for="email">Email</label>
+          <input 
+            id="email" 
+            type="email" 
+            pInputText 
+            formControlName="email" 
+            class="w-full"
+            placeholder="Digite seu email">
+          <small 
+            *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" 
+            class="p-error">
+            Email é obrigatório e deve ser válido
+          </small>
+        </div>
+        
+        <div class="field">
+          <label for="password">Senha</label>
+          <p-password 
+            id="password" 
+            formControlName="password"
+            [toggleMask]="true"
+            [feedback]="false"
+            styleClass="w-full"
+            placeholder="Digite sua senha">
+          </p-password>
+          <small 
+            *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" 
+            class="p-error">
+            Senha é obrigatória
+          </small>
+        </div>
+        
+        <div class="field-checkbox">
+          <p-checkbox 
+            formControlName="rememberMe" 
+            [binary]="true" 
+            inputId="rememberMe">
+          </p-checkbox>
+          <label for="rememberMe">Lembrar-me</label>
+        </div>
+        
+        <div class="flex justify-content-center">
+          <p-button 
+            type="submit" 
+            label="Entrar" 
+            icon="pi pi-sign-in" 
+            [disabled]="loginForm.invalid || isLoading">
+          </p-button>
+        </div>
+      </form>
+      
+      <ng-template pTemplate="footer">
+        <div class="text-center">
+          <p>Não tem uma conta? Entre em contato com o administrador.</p>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</div>

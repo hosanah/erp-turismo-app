@@ -1,0 +1,163 @@
+<!-- event-list.component.html -->
+<div class="event-list-container card">
+  <h2 class="page-title">Gerenciamento de Eventos</h2>
+
+  <p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="Novo Evento" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNewEventDialog()"></button>
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <span class="p-input-icon-left ml-auto">
+        <i class="pi pi-search"></i>
+        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Pesquisar..." />
+      </span>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table 
+    #dt 
+    [value]="events" 
+    [rows]="10" 
+    [paginator]="true" 
+    [globalFilterFields]="['title', 'type', 'startDate', 'driver.name', 'vehicle.plate']" 
+    [tableStyle]="{'min-width': '75rem'}"
+    [rowHover]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} eventos"
+    [showCurrentPageReport]="true"
+    [loading]="isLoading">
+    
+    <ng-template pTemplate="caption">
+      Lista de Eventos
+    </ng-template>
+    
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="title">Título <p-sortIcon field="title"></p-sortIcon></th>
+        <th pSortableColumn="type">Tipo <p-sortIcon field="type"></p-sortIcon></th>
+        <th pSortableColumn="startDate">Data Início <p-sortIcon field="startDate"></p-sortIcon></th>
+        <th pSortableColumn="endDate">Data Fim <p-sortIcon field="endDate"></p-sortIcon></th>
+        <th>Motorista</th>
+        <th>Veículo</th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="body" let-event>
+      <tr>
+        <td>{{ event.title }}</td>
+        <td>
+          <p-tag [value]="event.type" [severity]="getSeverity(event.type)"></p-tag>
+        </td>
+        <td>{{ event.startDate | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ event.endDate | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ event.driver?.name || 'N/A' }}</td>
+        <td>{{ event.vehicle?.plate || 'N/A' }}</td>
+        <td>
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editEvent(event)"></button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteEvent(event)"></button>
+        </td>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7">Nenhum evento encontrado.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<!-- Event Add/Edit Dialog -->
+<p-dialog 
+  header="{{ eventDialogMode === 'add' ? 'Adicionar Evento' : 'Editar Evento' }}" 
+  [(visible)]="displayEventDialog" 
+  [modal]="true" 
+  [style]="{width: '70vw', 'max-width': '800px'}" 
+  [draggable]="false" 
+  [resizable]="false">
+  
+  <form [formGroup]="eventForm" (ngSubmit)="saveEvent()">
+    <div class="field">
+      <label for="title">Título</label>
+      <input id="title" type="text" pInputText formControlName="title" class="w-full" required autofocus>
+      <small class="p-error" *ngIf="eventForm.get('title')?.invalid && eventForm.get('title')?.touched">Título é obrigatório.</small>
+    </div>
+
+    <div class="grid">
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="startDate">Início</label>
+          <p-calendar id="startDate" formControlName="startDate" [showTime]="true" dateFormat="dd/mm/yy" styleClass="w-full" required></p-calendar>
+          <small class="p-error" *ngIf="eventForm.get('startDate')?.invalid && eventForm.get('startDate')?.touched">Data de início é obrigatória.</small>
+        </div>
+      </div>
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="endDate">Fim</label>
+          <p-calendar id="endDate" formControlName="endDate" [showTime]="true" dateFormat="dd/mm/yy" styleClass="w-full"></p-calendar>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="description">Descrição</label>
+      <textarea id="description" pInputTextarea formControlName="description" rows="3" class="w-full"></textarea>
+    </div>
+
+    <div class="grid">
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="type">Tipo</label>
+          <p-dropdown id="type" formControlName="type" [options]="eventTypes" placeholder="Selecione o tipo" optionLabel="label" optionValue="value" styleClass="w-full" required></p-dropdown>
+          <small class="p-error" *ngIf="eventForm.get('type')?.invalid && eventForm.get('type')?.touched">Tipo é obrigatório.</small>
+        </div>
+      </div>
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="driverId">Motorista</label>
+          <p-dropdown id="driverId" formControlName="driverId" [options]="availableDrivers" placeholder="Selecione o motorista" optionLabel="name" optionValue="id" [filter]="true" filterBy="name" styleClass="w-full"></p-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="vehicleId">Veículo</label>
+          <p-dropdown id="vehicleId" formControlName="vehicleId" [options]="availableVehicles" placeholder="Selecione o veículo" optionLabel="plate" optionValue="id" [filter]="true" filterBy="plate,model" styleClass="w-full"></p-dropdown>
+        </div>
+      </div>
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="partnerId">Parceiro</label>
+          <p-dropdown id="partnerId" formControlName="partnerId" [options]="availablePartners" placeholder="Selecione o parceiro (opcional)" optionLabel="name" optionValue="id" [filter]="true" filterBy="name" [showClear]="true" styleClass="w-full"></p-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="clientIds">Clientes</label>
+      <p-multiSelect 
+        id="clientIds" 
+        formControlName="clientIds" 
+        [options]="availableClients" 
+        optionLabel="name" 
+        optionValue="id" 
+        placeholder="Selecione os clientes" 
+        [filter]="true" 
+        filterBy="name,email,document"
+        display="chip"
+        styleClass="w-full">
+      </p-multiSelect>
+    </div>
+
+    <div class="flex justify-content-end mt-4">
+      <p-button type="button" label="Cancelar" icon="pi pi-times" (click)="displayEventDialog=false" styleClass="p-button-text"></p-button>
+      <p-button type="submit" label="Salvar" icon="pi pi-check" [disabled]="eventForm.invalid"></p-button>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

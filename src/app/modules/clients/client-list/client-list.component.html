@@ -1,0 +1,105 @@
+<!-- client-list.component.html -->
+<div class="client-list-container card">
+  <h2 class="page-title">Gerenciamento de Clientes</h2>
+
+  <p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="Novo Cliente" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNewClientDialog()"></button>
+      <!-- Add more buttons if needed, e.g., delete selected -->
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <!-- Add export buttons or global filter if needed -->
+      <span class="p-input-icon-left ml-auto">
+        <i class="pi pi-search"></i>
+        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Pesquisar..." />
+      </span>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table 
+    #dt 
+    [value]="clients" 
+    [rows]="10" 
+    [paginator]="true" 
+    [globalFilterFields]="['name', 'email', 'phone', 'document']" 
+    [tableStyle]="{'min-width': '75rem'}"
+    [rowHover]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} clientes"
+    [showCurrentPageReport]="true"
+    [loading]="isLoading">
+    
+    <ng-template pTemplate="caption">
+      Lista de Clientes
+    </ng-template>
+    
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
+        <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+        <th pSortableColumn="phone">Telefone <p-sortIcon field="phone"></p-sortIcon></th>
+        <th pSortableColumn="document">Documento <p-sortIcon field="document"></p-sortIcon></th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="body" let-client>
+      <tr>
+        <td>{{ client.name }}</td>
+        <td>{{ client.email }}</td>
+        <td>{{ client.phone }}</td>
+        <td>{{ client.document }}</td>
+        <td>
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editClient(client)"></button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteClient(client)"></button>
+        </td>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">Nenhum cliente encontrado.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<!-- Client Add/Edit Dialog -->
+<p-dialog 
+  header="{{ clientDialogMode === 'add' ? 'Adicionar Cliente' : 'Editar Cliente' }}" 
+  [(visible)]="displayClientDialog" 
+  [modal]="true" 
+  [style]="{width: '450px'}" 
+  [draggable]="false" 
+  [resizable]="false">
+  
+  <form [formGroup]="clientForm" (ngSubmit)="saveClient()">
+    <div class="field">
+      <label for="name">Nome</label>
+      <input id="name" type="text" pInputText formControlName="name" class="w-full" required autofocus>
+      <small class="p-error" *ngIf="clientForm.get('name')?.invalid && clientForm.get('name')?.touched">Nome é obrigatório.</small>
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" type="email" pInputText formControlName="email" class="w-full" required>
+      <small class="p-error" *ngIf="clientForm.get('email')?.invalid && clientForm.get('email')?.touched">Email inválido.</small>
+    </div>
+    <div class="field">
+      <label for="phone">Telefone</label>
+      <p-inputMask id="phone" mask="(99) 99999-9999" formControlName="phone" placeholder="(99) 99999-9999" styleClass="w-full"></p-inputMask>
+    </div>
+    <div class="field">
+      <label for="document">Documento (CPF/CNPJ)</label>
+      <input id="document" type="text" pInputText formControlName="document" class="w-full">
+    </div>
+    <!-- Add other fields as needed -->
+
+    <div class="flex justify-content-end mt-4">
+      <p-button type="button" label="Cancelar" icon="pi pi-times" (click)="displayClientDialog=false" styleClass="p-button-text"></p-button>
+      <p-button type="submit" label="Salvar" icon="pi pi-check" [disabled]="clientForm.invalid"></p-button>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

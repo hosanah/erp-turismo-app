@@ -1,0 +1,25 @@
+<!-- app.component.html -->
+<p-toast></p-toast> <!-- For notifications -->
+
+<!-- Basic Layout Example -->
+<header *ngIf="authService.isAuthenticated()">
+  <!-- Add a basic top navigation bar here if needed -->
+  <nav>
+    <a routerLink="/dashboard">Dashboard</a> |
+    <a routerLink="/calendar">Calendário</a> |
+    <a routerLink="/clients">Clientes</a> |
+    <a routerLink="/events">Eventos</a> |
+    <a routerLink="/sales">Vendas</a> |
+    <a routerLink="/partners">Parceiros</a> |
+    <a routerLink="/drivers">Motoristas</a> |
+    <a routerLink="/vehicles">Veículos</a> |
+    <a routerLink="/reports">Relatórios</a> |
+    <a routerLink="/admin" *ngIf="authService.isMasterUser()">Admin</a> |
+    <button pButton type="button" label="Logout" icon="pi pi-sign-out" (click)="logout()"></button>
+  </nav>
+</header>
+
+<main class="container">
+  <router-outlet></router-outlet>
+</main>
+

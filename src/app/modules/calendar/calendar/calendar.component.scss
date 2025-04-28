@@ -1,0 +1,80 @@
+.calendar-container {
+  padding: 1rem;
+}
+
+:host ::ng-deep {
+  .fc {
+    /* Customize FullCalendar */
+    .fc-toolbar-title {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+    }
+    
+    .fc-event {
+      cursor: pointer;
+      border-radius: 4px;
+      padding: 2px 4px;
+    }
+    
+    .fc-day-today {
+      background-color: var(--surface-hover) !important;
+    }
+    
+    .fc-button-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+      
+      &:hover {
+        background-color: var(--primary-600);
+        border-color: var(--primary-600);
+      }
+      
+      &:disabled {
+        background-color: var(--primary-300);
+        border-color: var(--primary-300);
+      }
+    }
+  }
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
+}
+
+/* PrimeNG Grid System */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+  margin-top: -0.5rem;
+}
+
+.col-12 {
+  flex: 0 0 auto;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .md\:col-6 {
+    flex: 0 0 auto;
+    width: 50%;
+  }
+}

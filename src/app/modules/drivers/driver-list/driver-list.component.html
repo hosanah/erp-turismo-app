@@ -1,0 +1,111 @@
+<!-- driver-list.component.html -->
+<div class="driver-list-container card">
+  <h2 class="page-title">Gerenciamento de Motoristas</h2>
+
+  <p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="Novo Motorista" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNewDriverDialog()"></button>
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <span class="p-input-icon-left ml-auto">
+        <i class="pi pi-search"></i>
+        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Pesquisar..." />
+      </span>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table 
+    #dt 
+    [value]="drivers" 
+    [rows]="10" 
+    [paginator]="true" 
+    [globalFilterFields]="['name', 'licenseNumber', 'phone']" 
+    [tableStyle]="{'min-width': '75rem'}"
+    [rowHover]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} motoristas"
+    [showCurrentPageReport]="true"
+    [loading]="isLoading">
+    
+    <ng-template pTemplate="caption">
+      Lista de Motoristas
+    </ng-template>
+    
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
+        <th pSortableColumn="licenseNumber">Nº Habilitação <p-sortIcon field="licenseNumber"></p-sortIcon></th>
+        <th pSortableColumn="licenseExpiryDate">Validade Habilitação <p-sortIcon field="licenseExpiryDate"></p-sortIcon></th>
+        <th pSortableColumn="phone">Telefone <p-sortIcon field="phone"></p-sortIcon></th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="body" let-driver>
+      <tr>
+        <td>{{ driver.name }}</td>
+        <td>{{ driver.licenseNumber }}</td>
+        <td>{{ driver.licenseExpiryDate | date:'dd/MM/yyyy' }}</td>
+        <td>{{ driver.phone }}</td>
+        <td>
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editDriver(driver)"></button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteDriver(driver)"></button>
+        </td>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">Nenhum motorista encontrado.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<!-- Driver Add/Edit Dialog -->
+<p-dialog 
+  header="{{ driverDialogMode === 'add' ? 'Adicionar Motorista' : 'Editar Motorista' }}" 
+  [(visible)]="displayDriverDialog" 
+  [modal]="true" 
+  [style]="{width: '450px'}" 
+  [draggable]="false" 
+  [resizable]="false">
+  
+  <form [formGroup]="driverForm" (ngSubmit)="saveDriver()">
+    <div class="field">
+      <label for="name">Nome</label>
+      <input id="name" type="text" pInputText formControlName="name" class="w-full" required autofocus>
+      <small class="p-error" *ngIf="driverForm.get('name')?.invalid && driverForm.get('name')?.touched">Nome é obrigatório.</small>
+    </div>
+    
+    <div class="field">
+      <label for="licenseNumber">Número da Habilitação</label>
+      <input id="licenseNumber" type="text" pInputText formControlName="licenseNumber" class="w-full" required>
+      <small class="p-error" *ngIf="driverForm.get('licenseNumber')?.invalid && driverForm.get('licenseNumber')?.touched">Número da habilitação é obrigatório.</small>
+    </div>
+    
+    <div class="field">
+      <label for="licenseExpiryDate">Data de Validade da Habilitação</label>
+      <p-calendar id="licenseExpiryDate" formControlName="licenseExpiryDate" dateFormat="dd/mm/yy" styleClass="w-full" required></p-calendar>
+      <small class="p-error" *ngIf="driverForm.get('licenseExpiryDate')?.invalid && driverForm.get('licenseExpiryDate')?.touched">Data de validade é obrigatória.</small>
+    </div>
+    
+    <div class="field">
+      <label for="phone">Telefone</label>
+      <p-inputMask id="phone" mask="(99) 99999-9999" formControlName="phone" placeholder="(99) 99999-9999" styleClass="w-full"></p-inputMask>
+    </div>
+    
+    <div class="field">
+      <label for="notes">Observações</label>
+      <textarea id="notes" pInputTextarea formControlName="notes" rows="3" class="w-full"></textarea>
+    </div>
+
+    <div class="flex justify-content-end mt-4">
+      <p-button type="button" label="Cancelar" icon="pi pi-times" (click)="displayDriverDialog=false" styleClass="p-button-text"></p-button>
+      <p-button type="submit" label="Salvar" icon="pi pi-check" [disabled]="driverForm.invalid"></p-button>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

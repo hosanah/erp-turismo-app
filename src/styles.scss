@@ -1,0 +1,33 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Corrected PrimeNG style imports for newer versions */
+@import "primeng/resources/themes/lara-light-blue/theme.css"; 
+@import "primeng/resources/primeng.min.css"; /* Use minified version */
+@import "primeicons/primeicons.css";
+
+body {
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+  background-color: var(--surface-ground);
+  color: var(--text-color);
+}
+
+.container {
+  padding: 1rem;
+}
+
+.card {
+  background: var(--surface-card);
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
+              0 1px 1px 0 rgba(0, 0, 0, 0.14),
+              0 1px 3px 0 rgba(0, 0, 0, 0.12);
+}
+
+.page-title {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+}

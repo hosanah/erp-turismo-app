@@ -1,0 +1,85 @@
+.dashboard-container {
+  padding: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-blue-500 {
+  color: var(--blue-500);
+}
+
+.text-orange-500 {
+  color: var(--orange-500);
+}
+
+.text-green-500 {
+  color: var(--green-500);
+}
+
+.text-purple-500 {
+  color: var(--purple-500);
+}
+
+.text-900 {
+  color: var(--text-color);
+}
+
+.text-5xl {
+  font-size: 3rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.mt-3 {
+  margin-top: 0.75rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+/* PrimeNG Grid System */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+  margin-top: -0.5rem;
+}
+
+.col-12 {
+  flex: 0 0 auto;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .md\:col-4 {
+    flex: 0 0 auto;
+    width: 33.3333%;
+  }
+  
+  .md\:col-6 {
+    flex: 0 0 auto;
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .lg\:col-3 {
+    flex: 0 0 auto;
+    width: 25%;
+  }
+}

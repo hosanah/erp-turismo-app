@@ -1,0 +1,140 @@
+<!-- vehicle-list.component.html -->
+<div class="vehicle-list-container card">
+  <h2 class="page-title">Gerenciamento de Veículos</h2>
+
+  <p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="Novo Veículo" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNewVehicleDialog()"></button>
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <span class="p-input-icon-left ml-auto">
+        <i class="pi pi-search"></i>
+        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Pesquisar..." />
+      </span>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table 
+    #dt 
+    [value]="vehicles" 
+    [rows]="10" 
+    [paginator]="true" 
+    [globalFilterFields]="['plate', 'model', 'brand', 'year', 'capacity']" 
+    [tableStyle]="{'min-width': '75rem'}"
+    [rowHover]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} veículos"
+    [showCurrentPageReport]="true"
+    [loading]="isLoading">
+    
+    <ng-template pTemplate="caption">
+      Lista de Veículos
+    </ng-template>
+    
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="plate">Placa <p-sortIcon field="plate"></p-sortIcon></th>
+        <th pSortableColumn="model">Modelo <p-sortIcon field="model"></p-sortIcon></th>
+        <th pSortableColumn="brand">Marca <p-sortIcon field="brand"></p-sortIcon></th>
+        <th pSortableColumn="year">Ano <p-sortIcon field="year"></p-sortIcon></th>
+        <th pSortableColumn="capacity">Capacidade <p-sortIcon field="capacity"></p-sortIcon></th>
+        <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="body" let-vehicle>
+      <tr>
+        <td>{{ vehicle.plate }}</td>
+        <td>{{ vehicle.model }}</td>
+        <td>{{ vehicle.brand }}</td>
+        <td>{{ vehicle.year }}</td>
+        <td>{{ vehicle.capacity }} pessoas</td>
+        <td>
+          <p-tag [value]="vehicle.status" [severity]="getStatusSeverity(vehicle.status)"></p-tag>
+        </td>
+        <td>
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editVehicle(vehicle)"></button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteVehicle(vehicle)"></button>
+        </td>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7">Nenhum veículo encontrado.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<!-- Vehicle Add/Edit Dialog -->
+<p-dialog 
+  header="{{ vehicleDialogMode === 'add' ? 'Adicionar Veículo' : 'Editar Veículo' }}" 
+  [(visible)]="displayVehicleDialog" 
+  [modal]="true" 
+  [style]="{width: '500px'}" 
+  [draggable]="false" 
+  [resizable]="false">
+  
+  <form [formGroup]="vehicleForm" (ngSubmit)="saveVehicle()">
+    <div class="field">
+      <label for="plate">Placa</label>
+      <input id="plate" type="text" pInputText formControlName="plate" class="w-full" required autofocus>
+      <small class="p-error" *ngIf="vehicleForm.get('plate')?.invalid && vehicleForm.get('plate')?.touched">Placa é obrigatória.</small>
+    </div>
+    
+    <div class="grid">
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="model">Modelo</label>
+          <input id="model" type="text" pInputText formControlName="model" class="w-full" required>
+          <small class="p-error" *ngIf="vehicleForm.get('model')?.invalid && vehicleForm.get('model')?.touched">Modelo é obrigatório.</small>
+        </div>
+      </div>
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="brand">Marca</label>
+          <input id="brand" type="text" pInputText formControlName="brand" class="w-full" required>
+          <small class="p-error" *ngIf="vehicleForm.get('brand')?.invalid && vehicleForm.get('brand')?.touched">Marca é obrigatória.</small>
+        </div>
+      </div>
+    </div>
+    
+    <div class="grid">
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="year">Ano</label>
+          <p-inputNumber id="year" formControlName="year" [useGrouping]="false" [min]="1990" [max]="currentYear" styleClass="w-full" required></p-inputNumber>
+          <small class="p-error" *ngIf="vehicleForm.get('year')?.invalid && vehicleForm.get('year')?.touched">Ano é obrigatório.</small>
+        </div>
+      </div>
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="capacity">Capacidade (pessoas)</label>
+          <p-inputNumber id="capacity" formControlName="capacity" [min]="1" [max]="100" styleClass="w-full" required></p-inputNumber>
+          <small class="p-error" *ngIf="vehicleForm.get('capacity')?.invalid && vehicleForm.get('capacity')?.touched">Capacidade é obrigatória.</small>
+        </div>
+      </div>
+    </div>
+    
+    <div class="field">
+      <label for="status">Status</label>
+      <p-dropdown id="status" formControlName="status" [options]="vehicleStatuses" placeholder="Selecione o status" optionLabel="label" optionValue="value" styleClass="w-full" required></p-dropdown>
+      <small class="p-error" *ngIf="vehicleForm.get('status')?.invalid && vehicleForm.get('status')?.touched">Status é obrigatório.</small>
+    </div>
+    
+    <div class="field">
+      <label for="notes">Observações</label>
+      <textarea id="notes" pInputTextarea formControlName="notes" rows="3" class="w-full"></textarea>
+    </div>
+
+    <div class="flex justify-content-end mt-4">
+      <p-button type="button" label="Cancelar" icon="pi pi-times" (click)="displayVehicleDialog=false" styleClass="p-button-text"></p-button>
+      <p-button type="submit" label="Salvar" icon="pi pi-check" [disabled]="vehicleForm.invalid"></p-button>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

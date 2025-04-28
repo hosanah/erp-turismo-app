@@ -1,0 +1,138 @@
+<!-- report-viewer.component.html -->
+<div class="report-container card">
+  <h2 class="page-title">Relatórios</h2>
+
+  <div class="grid">
+    <div class="col-12 md:col-3">
+      <div class="card p-3">
+        <h3>Filtros</h3>
+        <form [formGroup]="reportForm">
+          <div class="field">
+            <label for="reportType">Tipo de Relatório</label>
+            <p-dropdown id="reportType" formControlName="reportType" [options]="reportTypes" 
+              placeholder="Selecione o tipo" optionLabel="label" optionValue="value" 
+              styleClass="w-full" (onChange)="onReportTypeChange()"></p-dropdown>
+          </div>
+
+          <div class="field">
+            <label for="startDate">Data Inicial</label>
+            <p-calendar id="startDate" formControlName="startDate" dateFormat="dd/mm/yy" 
+              [showIcon]="true" styleClass="w-full"></p-calendar>
+          </div>
+
+          <div class="field">
+            <label for="endDate">Data Final</label>
+            <p-calendar id="endDate" formControlName="endDate" dateFormat="dd/mm/yy" 
+              [showIcon]="true" styleClass="w-full"></p-calendar>
+          </div>
+
+          <!-- Filtros condicionais baseados no tipo de relatório -->
+          <div *ngIf="reportForm.get('reportType')?.value === 'events'" class="field">
+            <label for="eventType">Tipo de Evento</label>
+            <p-dropdown id="eventType" formControlName="eventType" [options]="eventTypes" 
+              placeholder="Todos os tipos" optionLabel="label" optionValue="value" 
+              [showClear]="true" styleClass="w-full"></p-dropdown>
+          </div>
+
+          <div *ngIf="reportForm.get('reportType')?.value === 'sales'" class="field">
+            <label for="minAmount">Valor Mínimo</label>
+            <p-inputNumber id="minAmount" formControlName="minAmount" mode="currency" 
+              currency="BRL" locale="pt-BR" styleClass="w-full"></p-inputNumber>
+          </div>
+
+          <div *ngIf="reportForm.get('reportType')?.value === 'drivers' || 
+                      reportForm.get('reportType')?.value === 'vehicles'" class="field">
+            <label for="status">Status</label>
+            <p-dropdown id="status" formControlName="status" [options]="statusOptions" 
+              placeholder="Todos os status" optionLabel="label" optionValue="value" 
+              [showClear]="true" styleClass="w-full"></p-dropdown>
+          </div>
+
+          <div class="field mt-4">
+            <p-button label="Gerar Relatório" icon="pi pi-file" 
+              (onClick)="generateReport()" [disabled]="reportForm.invalid"></p-button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-12 md:col-9">
+      <div class="card p-3">
+        <div class="flex justify-content-between align-items-center mb-3">
+          <h3>{{ getReportTitle() }}</h3>
+          <div>
+            <p-button icon="pi pi-download" label="Exportar PDF" 
+              styleClass="p-button-outlined mr-2" (onClick)="exportPdf()" 
+              [disabled]="!reportData.length"></p-button>
+            <p-button icon="pi pi-file-excel" label="Exportar Excel" 
+              styleClass="p-button-outlined p-button-success" (onClick)="exportExcel()" 
+              [disabled]="!reportData.length"></p-button>
+          </div>
+        </div>
+
+        <p-table #dt [value]="reportData" [columns]="reportColumns" 
+          [paginator]="true" [rows]="10" [responsive]="true" 
+          [globalFilterFields]="getFilterFields()" 
+          [loading]="isLoading" styleClass="p-datatable-sm">
+          
+          <ng-template pTemplate="caption">
+            <div class="flex justify-content-end">
+              <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" 
+                  placeholder="Pesquisar..." />
+              </span>
+            </div>
+          </ng-template>
+          
+          <ng-template pTemplate="header">
+            <tr>
+              <th *ngFor="let col of reportColumns" [pSortableColumn]="col.field">
+                {{ col.header }} <p-sortIcon [field]="col.field"></p-sortIcon>
+              </th>
+            </tr>
+          </ng-template>
+          
+          <ng-template pTemplate="body" let-item>
+            <tr>
+              <td *ngFor="let col of reportColumns">
+                <ng-container [ngSwitch]="col.type">
+                  <span *ngSwitchCase="'date'">{{ item[col.field] | date:'dd/MM/yyyy' }}</span>
+                  <span *ngSwitchCase="'datetime'">{{ item[col.field] | date:'dd/MM/yyyy HH:mm' }}</span>
+                  <span *ngSwitchCase="'currency'">{{ item[col.field] | currency:'BRL' }}</span>
+                  <span *ngSwitchCase="'status'">
+                    <p-tag [value]="item[col.field]" [severity]="getStatusSeverity(item[col.field])"></p-tag>
+                  </span>
+                  <span *ngSwitchDefault>{{ item[col.field] }}</span>
+                </ng-container>
+              </td>
+            </tr>
+          </ng-template>
+          
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td [attr.colspan]="reportColumns.length" class="text-center">
+                {{ isLoading ? 'Carregando dados...' : 'Nenhum dado encontrado. Selecione os filtros e gere um relatório.' }}
+              </td>
+            </tr>
+          </ng-template>
+          
+          <ng-template pTemplate="summary" *ngIf="reportData.length > 0">
+            <div class="flex justify-content-between">
+              <div>Total de registros: {{ reportData.length }}</div>
+              <div *ngIf="reportForm.get('reportType')?.value === 'sales'">
+                Valor Total: {{ getTotalAmount() | currency:'BRL' }}
+              </div>
+            </div>
+          </ng-template>
+        </p-table>
+
+        <!-- Gráfico para visualização dos dados -->
+        <div *ngIf="reportData.length > 0" class="mt-4">
+          <h3>Visualização Gráfica</h3>
+          <p-chart [type]="chartType" [data]="chartData" [options]="chartOptions" width="100%" height="400px"></p-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
