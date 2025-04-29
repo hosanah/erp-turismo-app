@@ -1,57 +1,46 @@
 <!-- dashboard.component.html -->
-<div class="dashboard-container">
-  <h2 class="page-title">Dashboard</h2>
+<div class="p-4"> <!-- Replaced dashboard-container -->
+  <h2 class="text-2xl font-bold mb-4">Dashboard</h2> <!-- Replaced page-title -->
 
-  <div class="grid">
-    <div class="col-12 md:col-6 lg:col-3">
-      <p-card header="Clientes Ativos" styleClass="p-card-shadow">
-        <div class="text-center">
-          <i class="pi pi-users text-blue-500 text-5xl"></i>
-          <div class="text-900 font-bold text-xl mt-3">{{ activeClients }}</div>
-        </div>
-      </p-card>
-    </div>
-    <div class="col-12 md:col-6 lg:col-3">
-      <p-card header="Eventos Próximos" styleClass="p-card-shadow">
-        <div class="text-center">
-          <i class="pi pi-calendar text-orange-500 text-5xl"></i>
-          <div class="text-900 font-bold text-xl mt-3">{{ upcomingEvents }}</div>
-        </div>
-      </p-card>
-    </div>
-    <div class="col-12 md:col-6 lg:col-3">
-      <p-card header="Vendas (Mês)" styleClass="p-card-shadow">
-        <div class="text-center">
-          <i class="pi pi-shopping-cart text-green-500 text-5xl"></i>
-          <div class="text-900 font-bold text-xl mt-3">{{ monthlySales | currency:
-          'BRL' }}</div>
-        </div>
-      </p-card>
-    </div>
-    <div class="col-12 md:col-6 lg:col-3">
-      <p-card header="Motoristas Disponíveis" styleClass="p-card-shadow">
-        <div class="text-center">
-          <i class="pi pi-id-card text-purple-500 text-5xl"></i>
-          <div class="text-900 font-bold text-xl mt-3">{{ availableDrivers }}</div>
-        </div>
-      </p-card>
-    </div>
+  <!-- Replaced PrimeFlex grid with Tailwind grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+    <p-card header="Clientes Ativos" styleClass="shadow-md rounded-lg"> <!-- Added Tailwind shadow/rounding -->
+      <div class="text-center p-4">
+        <i class="pi pi-users text-blue-500 text-5xl mb-3"></i>
+        <div class="text-gray-900 font-bold text-xl">{{ activeClients }}</div>
+      </div>
+    </p-card>
+    <p-card header="Eventos Próximos" styleClass="shadow-md rounded-lg">
+      <div class="text-center p-4">
+        <i class="pi pi-calendar text-orange-500 text-5xl mb-3"></i>
+        <div class="text-gray-900 font-bold text-xl">{{ upcomingEvents }}</div>
+      </div>
+    </p-card>
+    <p-card header="Vendas (Mês)" styleClass="shadow-md rounded-lg">
+      <div class="text-center p-4">
+        <i class="pi pi-shopping-cart text-green-500 text-5xl mb-3"></i>
+        <div class="text-gray-900 font-bold text-xl">{{ monthlySales | currency:
+        'BRL' }}</div>
+      </div>
+    </p-card>
+    <p-card header="Motoristas Disponíveis" styleClass="shadow-md rounded-lg">
+      <div class="text-center p-4">
+        <i class="pi pi-id-card text-purple-500 text-5xl mb-3"></i>
+        <div class="text-gray-900 font-bold text-xl">{{ availableDrivers }}</div>
+      </div>
+    </p-card>
   </div>
 
-  <div class="mt-4">
-    <p-panel header="Ações Rápidas">
-      <div class="grid">
-        <div class="col-12 md:col-4">
-          <button pButton type="button" label="Novo Evento" icon="pi pi-plus" class="p-button-info w-full" routerLink="/events/new"></button>
-        </div>
-        <div class="col-12 md:col-4">
-          <button pButton type="button" label="Nova Venda" icon="pi pi-shopping-cart" class="p-button-success w-full" routerLink="/sales/new"></button>
-        </div>
-        <div class="col-12 md:col-4">
-          <button pButton type="button" label="Ver Calendário" icon="pi pi-calendar" class="p-button-warning w-full" routerLink="/calendar"></button>
-        </div>
+  <div> <!-- Removed mt-4, handled by grid gap -->
+    <p-panel header="Ações Rápidas" styleClass="shadow-md rounded-lg">
+      <!-- Replaced PrimeFlex grid with Tailwind grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
+        <button pButton type="button" label="Novo Evento" icon="pi pi-plus" class="w-full p-button-info" routerLink="/events/new"></button> <!-- Assuming plugin styles p-button-info -->
+        <button pButton type="button" label="Nova Venda" icon="pi pi-shopping-cart" class="w-full p-button-success" routerLink="/sales/new"></button> <!-- Assuming plugin styles p-button-success -->
+        <button pButton type="button" label="Ver Calendário" icon="pi pi-calendar" class="w-full p-button-warning" routerLink="/calendar"></button> <!-- Assuming plugin styles p-button-warning -->
       </div>
     </p-panel>
   </div>
 
 </div>
+

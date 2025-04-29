@@ -1,25 +1,26 @@
 <!-- app.component.html -->
 <p-toast></p-toast> <!-- For notifications -->
 
-<!-- Basic Layout Example -->
-<header *ngIf="authService.isAuthenticated()">
-  <!-- Add a basic top navigation bar here if needed -->
-  <nav>
-    <a routerLink="/dashboard">Dashboard</a> |
-    <a routerLink="/calendar">Calendário</a> |
-    <a routerLink="/clients">Clientes</a> |
-    <a routerLink="/events">Eventos</a> |
-    <a routerLink="/sales">Vendas</a> |
-    <a routerLink="/partners">Parceiros</a> |
-    <a routerLink="/drivers">Motoristas</a> |
-    <a routerLink="/vehicles">Veículos</a> |
-    <a routerLink="/reports">Relatórios</a> |
-    <a routerLink="/admin" *ngIf="authService.isMasterUser()">Admin</a> |
-    <button pButton type="button" label="Logout" icon="pi pi-sign-out" (click)="logout()"></button>
+<!-- Basic Layout Example with Tailwind CSS -->
+<header *ngIf="authService.isAuthenticated()" class="bg-gray-100 shadow-md">
+  <nav class="container mx-auto px-4 py-2 flex flex-wrap items-center justify-between">
+    <div class="flex flex-wrap items-center space-x-4">
+      <a routerLink="/dashboard" class="text-blue-600 hover:text-blue-800 py-1">Dashboard</a>
+      <a routerLink="/calendar" class="text-blue-600 hover:text-blue-800 py-1">Calendário</a>
+      <a routerLink="/clients" class="text-blue-600 hover:text-blue-800 py-1">Clientes</a>
+      <a routerLink="/events" class="text-blue-600 hover:text-blue-800 py-1">Eventos</a>
+      <a routerLink="/sales" class="text-blue-600 hover:text-blue-800 py-1">Vendas</a>
+      <a routerLink="/partners" class="text-blue-600 hover:text-blue-800 py-1">Parceiros</a>
+      <a routerLink="/drivers" class="text-blue-600 hover:text-blue-800 py-1">Motoristas</a>
+      <a routerLink="/vehicles" class="text-blue-600 hover:text-blue-800 py-1">Veículos</a>
+      <a routerLink="/reports" class="text-blue-600 hover:text-blue-800 py-1">Relatórios</a>
+      <a routerLink="/admin" *ngIf="authService.isMasterUser()" class="text-red-600 hover:text-red-800 py-1">Admin</a>
+    </div>
+    <button pButton type="button" label="Logout" icon="pi pi-sign-out" (click)="logout()" class="p-button-sm p-button-danger"></button> <!-- PrimeNG button should inherit Tailwind styles via plugin, added size/color classes for example -->
   </nav>
 </header>
 
-<main class="container">
+<main class="container mx-auto p-4">
   <router-outlet></router-outlet>
 </main>
 

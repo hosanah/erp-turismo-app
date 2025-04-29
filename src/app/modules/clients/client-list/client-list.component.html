@@ -1,105 +1,108 @@
 <!-- client-list.component.html -->
-<div class="client-list-container card">
-  <h2 class="page-title">Gerenciamento de Clientes</h2>
+<div class="p-4"> <!-- Replaced client-list-container and card -->
+  <h2 class="text-2xl font-bold mb-4">Gerenciamento de Clientes</h2> <!-- Replaced page-title -->
 
-  <p-toolbar styleClass="mb-4">
+  <p-toolbar styleClass="mb-4 rounded-md shadow-sm">
     <ng-template pTemplate="left">
       <button pButton pRipple label="Novo Cliente" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNewClientDialog()"></button>
-      <!-- Add more buttons if needed, e.g., delete selected -->
+      <!-- Add more buttons if needed -->
     </ng-template>
 
     <ng-template pTemplate="right">
       <!-- Add export buttons or global filter if needed -->
-      <span class="p-input-icon-left ml-auto">
-        <i class="pi pi-search"></i>
-        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Pesquisar..." />
+      <span class="relative ml-auto"> <!-- Replaced p-input-icon-left -->
+        <i class="pi pi-search absolute top-1/2 left-3 -translate-y-1/2 text-gray-400"></i>
+        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Pesquisar..." class="pl-10 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
       </span>
     </ng-template>
   </p-toolbar>
 
-  <p-table 
-    #dt 
-    [value]="clients" 
-    [rows]="10" 
-    [paginator]="true" 
-    [globalFilterFields]="['name', 'email', 'phone', 'document']" 
+  <p-table
+    #dt
+    [value]="clients"
+    [rows]="10"
+    [paginator]="true"
+    [globalFilterFields]="['name', 'email', 'phone', 'document']"
     [tableStyle]="{'min-width': '75rem'}"
     [rowHover]="true"
     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} clientes"
     [showCurrentPageReport]="true"
-    [loading]="isLoading">
-    
+    [loading]="isLoading"
+    styleClass="p-datatable-striped p-datatable-gridlines shadow-md rounded-lg overflow-hidden"> <!-- Added Tailwind shadow/rounding and PrimeNG styling classes -->
+
     <ng-template pTemplate="caption">
-      Lista de Clientes
+      <div class="text-xl font-semibold p-4 bg-gray-50">Lista de Clientes</div>
     </ng-template>
-    
+
     <ng-template pTemplate="header">
       <tr>
-        <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
-        <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
-        <th pSortableColumn="phone">Telefone <p-sortIcon field="phone"></p-sortIcon></th>
-        <th pSortableColumn="document">Documento <p-sortIcon field="document"></p-sortIcon></th>
-        <th>Ações</th>
+        <th pSortableColumn="name" class="p-4 bg-gray-100 text-left text-sm font-semibold text-gray-700">Nome <p-sortIcon field="name"></p-sortIcon></th>
+        <th pSortableColumn="email" class="p-4 bg-gray-100 text-left text-sm font-semibold text-gray-700">Email <p-sortIcon field="email"></p-sortIcon></th>
+        <th pSortableColumn="phone" class="p-4 bg-gray-100 text-left text-sm font-semibold text-gray-700">Telefone <p-sortIcon field="phone"></p-sortIcon></th>
+        <th pSortableColumn="document" class="p-4 bg-gray-100 text-left text-sm font-semibold text-gray-700">Documento <p-sortIcon field="document"></p-sortIcon></th>
+        <th class="p-4 bg-gray-100 text-left text-sm font-semibold text-gray-700">Ações</th>
       </tr>
     </ng-template>
-    
+
     <ng-template pTemplate="body" let-client>
-      <tr>
-        <td>{{ client.name }}</td>
-        <td>{{ client.email }}</td>
-        <td>{{ client.phone }}</td>
-        <td>{{ client.document }}</td>
-        <td>
+      <tr class="hover:bg-gray-50">
+        <td class="p-4 border-b border-gray-200 text-sm">{{ client.name }}</td>
+        <td class="p-4 border-b border-gray-200 text-sm">{{ client.email }}</td>
+        <td class="p-4 border-b border-gray-200 text-sm">{{ client.phone }}</td>
+        <td class="p-4 border-b border-gray-200 text-sm">{{ client.document }}</td>
+        <td class="p-4 border-b border-gray-200 text-sm">
           <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editClient(client)"></button>
           <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteClient(client)"></button>
         </td>
       </tr>
     </ng-template>
-    
+
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="5">Nenhum cliente encontrado.</td>
+        <td colspan="5" class="p-4 text-center text-gray-500">Nenhum cliente encontrado.</td>
       </tr>
     </ng-template>
   </p-table>
 </div>
 
 <!-- Client Add/Edit Dialog -->
-<p-dialog 
-  header="{{ clientDialogMode === 'add' ? 'Adicionar Cliente' : 'Editar Cliente' }}" 
-  [(visible)]="displayClientDialog" 
-  [modal]="true" 
-  [style]="{width: '450px'}" 
-  [draggable]="false" 
-  [resizable]="false">
-  
-  <form [formGroup]="clientForm" (ngSubmit)="saveClient()">
-    <div class="field">
-      <label for="name">Nome</label>
-      <input id="name" type="text" pInputText formControlName="name" class="w-full" required autofocus>
-      <small class="p-error" *ngIf="clientForm.get('name')?.invalid && clientForm.get('name')?.touched">Nome é obrigatório.</small>
+<p-dialog
+  header="{{ clientDialogMode === 'add' ? 'Adicionar Cliente' : 'Editar Cliente' }}"
+  [(visible)]="displayClientDialog"
+  [modal]="true"
+  [style]="{width: '450px'}"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="rounded-lg shadow-xl">
+
+  <form [formGroup]="clientForm" (ngSubmit)="saveClient()" class="p-4 space-y-4">
+    <div> <!-- Replaced .field -->
+      <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+      <input id="name" type="text" pInputText formControlName="name" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required autofocus>
+      <small class="text-red-600 text-xs mt-1" *ngIf="clientForm.get('name')?.invalid && clientForm.get('name')?.touched">Nome é obrigatório.</small>
     </div>
-    <div class="field">
-      <label for="email">Email</label>
-      <input id="email" type="email" pInputText formControlName="email" class="w-full" required>
-      <small class="p-error" *ngIf="clientForm.get('email')?.invalid && clientForm.get('email')?.touched">Email inválido.</small>
+    <div> <!-- Replaced .field -->
+      <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+      <input id="email" type="email" pInputText formControlName="email" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
+      <small class="text-red-600 text-xs mt-1" *ngIf="clientForm.get('email')?.invalid && clientForm.get('email')?.touched">Email inválido.</small>
     </div>
-    <div class="field">
-      <label for="phone">Telefone</label>
-      <p-inputMask id="phone" mask="(99) 99999-9999" formControlName="phone" placeholder="(99) 99999-9999" styleClass="w-full"></p-inputMask>
+    <div> <!-- Replaced .field -->
+      <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
+      <p-inputMask id="phone" mask="(99) 99999-9999" formControlName="phone" placeholder="(99) 99999-9999" styleClass="w-full" inputStyleClass="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></p-inputMask>
     </div>
-    <div class="field">
-      <label for="document">Documento (CPF/CNPJ)</label>
-      <input id="document" type="text" pInputText formControlName="document" class="w-full">
+    <div> <!-- Replaced .field -->
+      <label for="document" class="block text-sm font-medium text-gray-700 mb-1">Documento (CPF/CNPJ)</label>
+      <input id="document" type="text" pInputText formControlName="document" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
     </div>
     <!-- Add other fields as needed -->
 
-    <div class="flex justify-content-end mt-4">
-      <p-button type="button" label="Cancelar" icon="pi pi-times" (click)="displayClientDialog=false" styleClass="p-button-text"></p-button>
+    <div class="flex justify-end mt-6"> <!-- Replaced justify-content-end and adjusted margin -->
+      <p-button type="button" label="Cancelar" icon="pi pi-times" (click)="displayClientDialog=false" styleClass="p-button-text mr-2"></p-button>
       <p-button type="submit" label="Salvar" icon="pi pi-check" [disabled]="clientForm.invalid"></p-button>
     </div>
   </form>
 </p-dialog>
 
 <!-- Confirmation Dialog -->
-<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '450px'}" styleClass="rounded-lg shadow-xl"></p-confirmDialog>
+
