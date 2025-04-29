@@ -1,0 +1,9 @@
+<p-sidebar [(visible)]="visible" [showCloseIcon]="true" styleClass="w-full md:w-64 lg:w-80">
+  <ng-template pTemplate="header">
+    <div class="flex items-center p-4">
+      <span class="text-xl font-semibold">Menu Principal</span>
+    </div>
+  </ng-template>
+  <p-menu [model]="menuItems" styleClass="w-full border-none"></p-menu>
+</p-sidebar>
+

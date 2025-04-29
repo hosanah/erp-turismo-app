@@ -1,0 +1,8 @@
+<div class="relative">
+  <button pButton type="button" class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)">
+    <p-avatar icon="pi pi-user" styleClass="mr-2" shape="circle"></p-avatar>
+    <!-- Pode adicionar o nome do usuário aqui se disponível -->
+  </button>
+  <p-menu #menu [model]="items" [popup]="true"></p-menu>
+</div>
+

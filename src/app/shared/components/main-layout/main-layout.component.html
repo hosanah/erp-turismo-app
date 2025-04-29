@@ -1,0 +1,22 @@
+<div class="flex flex-col h-screen">
+  <!-- Navbar -->
+  <app-navbar (sidebarToggle)="toggleSidebar()"></app-navbar>
+
+  <div class="flex flex-1 overflow-hidden">
+    <!-- Sidebar -->
+    <app-sidebar [visible]="sidebarVisible"></app-sidebar>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto p-6 bg-surface-ground">
+      <!-- Breadcrumb -->
+      <app-breadcrumb></app-breadcrumb>
+
+      <!-- Page Content -->
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <!-- Loading Indicator -->
+  <app-loading [visible]="isLoading"></app-loading> <!-- Bind to isLoading property -->
+</div>
+
