@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.apiService.post<LoginResponse>('auth/entrar', { email, password })
+    return this.apiService.post<LoginResponse>('Auth/entrar', { email, password })
       .pipe(
         tap(response => this.handleAuthentication(response)),
         catchError(error => {
@@ -74,18 +74,18 @@ export class AuthService {
     return user && (user.role === 'Master' || user.isMaster === true); // Assuming one of these properties exists
   }
 
-  private handleAuthentication(response: LoginResponse): void {
-    const expirationDate = new Date(new Date().getTime() + response.expiresIn * 1000);
+  private handleAuthentication(response: any): void {
+    const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
     
     const userData = {
-      ...response.user,
-      token: response.token,
+      ...response.data.userToken,
+      token: response.data.accessToken,
       tokenExpirationDate: expirationDate
     };
     
     localStorage.setItem('userData', JSON.stringify(userData));
     this.currentUserSubject.next(userData);
-    this.autoLogout(response.expiresIn * 1000);
+    this.autoLogout(response.data.expiresIn * 100);
   }
 
   private loadStoredUser(): void {
