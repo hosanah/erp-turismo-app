@@ -1,0 +1,9 @@
+/* Styles for NavbarComponent */
+nav {
+  /* Add specific styles based on PrimeNG Tailwind theme and reference site */
+  /* Example: Ensure user menu dropdown aligns correctly */
+  ::ng-deep .p-menu {
+    /* Tailwind classes are preferred, but SCSS can be used for complex overrides */
+  }
+}
+

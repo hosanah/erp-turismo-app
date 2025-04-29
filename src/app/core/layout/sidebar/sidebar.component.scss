@@ -1,0 +1,26 @@
+/* Styles for SidebarComponent */
+.sidebar {
+  width: 260px; /* Default width */
+}
+
+.sidebar.collapsed {
+  width: 80px; /* Collapsed width */
+}
+
+/* Add specific styles based on PrimeNG Tailwind theme and reference site */
+/* Example: Adjust link active state */
+a.router-link-active {
+  /* Tailwind classes are preferred, but SCSS can be used for complex overrides */
+  /* background-color: #e0f2fe; /* Equivalent to bg-blue-100 */
+  /* color: #0c4a6e; /* Equivalent to text-blue-700 */
+}
+
+/* Ensure icons are centered when collapsed */
+.sidebar.collapsed .p-button-icon-only i {
+  margin: auto;
+}
+
+.sidebar.collapsed .p-button-icon-only span {
+  display: none;
+}
+

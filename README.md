@@ -1,91 +1,27 @@
-# ERP Turismo App - Layout Responsivo com PrimeNG Tailwind
+# ErpTurismoApp
 
-Este projeto é uma aplicação Angular para gerenciamento de turismo (ERP Turismo), atualizada com um novo layout responsivo utilizando exclusivamente componentes e estilos do PrimeNG Tailwind.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.19.
 
-## Visão Geral
+## Development server
 
-A aplicação original foi reestruturada para incorporar um layout moderno e responsivo, melhorando a experiência do usuário em diferentes dispositivos (desktop, tablet e mobile). Os seguintes componentes foram criados e integrados:
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-*   **Navbar:** Barra de navegação superior com título, botão para toggle do sidebar e menu do usuário.
-*   **Sidebar:** Menu lateral navegável com links para as principais seções da aplicação.
-*   **User Menu:** Menu dropdown no navbar com opções de perfil, configurações e logout.
-*   **Breadcrumb:** Componente que exibe a localização atual do usuário na hierarquia de navegação.
-*   **Loading:** Indicador visual de carregamento para operações assíncronas.
-*   **Main Layout:** Componente principal que organiza o navbar, sidebar e a área de conteúdo principal (`<router-outlet>`).
+## Code scaffolding
 
-## Pré-requisitos
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em seu ambiente de desenvolvimento:
+## Build
 
-*   [Node.js](https://nodejs.org/) (versão LTS recomendada)
-*   [Yarn](https://yarnpkg.com/) (gerenciador de pacotes)
-*   [Docker](https://www.docker.com/) (opcional, para execução em contêiner)
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Instalação
+## Running unit tests
 
-1.  Clone o repositório:
-    ```bash
-    git clone https://github.com/hosanah/erp-turismo-app.git # Ou o URL do seu fork/repositório
-    cd erp-turismo-app
-    ```
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-2.  Instale as dependências do projeto usando Yarn:
-    ```bash
-    yarn install
-    ```
+## Running end-to-end tests
 
-## Executando a Aplicação
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-Para iniciar o servidor de desenvolvimento local, execute:
+## Further help
 
-```bash
-yarn start
-```
-
-A aplicação estará disponível em `http://localhost:4200/`.
-
-## Estrutura do Projeto (Layout)
-
-Os novos componentes de layout foram adicionados em `src/app/shared/components`:
-
-```
-src/
-└── app/
-    ├── core/         # Serviços core, interceptors, etc.
-    ├── modules/      # Módulos de funcionalidades (clientes, vendas, etc.)
-    ├── shared/       # Módulo compartilhado e componentes reutilizáveis
-    │   ├── components/
-    │   │   ├── breadcrumb/
-    │   │   ├── loading/
-    │   │   ├── main-layout/
-    │   │   ├── navbar/
-    │   │   ├── sidebar/
-    │   │   └── user-menu/
-    │   └── shared.module.ts # Módulo que declara e exporta os componentes
-    ├── app.component.html # Template raiz (usa app-main-layout)
-    ├── app.component.ts   # Componente raiz
-    ├── app.config.ts      # Configuração da aplicação standalone
-    └── app.routes.ts      # Definição das rotas
-```
-
-O `AppComponent` agora utiliza o `MainLayoutComponent` para renderizar a estrutura principal da aplicação quando o usuário está autenticado.
-
-## Tecnologias Utilizadas
-
-*   **Angular:** Framework principal da aplicação.
-*   **PrimeNG:** Biblioteca de componentes UI para Angular.
-*   **Tailwind CSS:** Framework CSS utility-first para estilização.
-*   **PrimeNG Tailwind Preset (Aura):** Integração oficial entre PrimeNG e Tailwind CSS, fornecendo estilos baseados em Tailwind para os componentes PrimeNG.
-*   **TypeScript:** Superset de JavaScript para tipagem estática.
-*   **SCSS:** Pré-processador CSS.
-
-## Executando com Docker (Instruções a serem adicionadas após criação do Dockerfile)
-
-*(Esta seção será preenchida após a criação do `Dockerfile`)*
-
-```bash
-# Exemplo:
-# docker build -t erp-turismo-app .
-# docker run -p 4200:80 erp-turismo-app
-```
-
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
