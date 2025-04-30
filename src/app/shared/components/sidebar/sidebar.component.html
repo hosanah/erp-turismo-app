@@ -1,5 +1,5 @@
 <div class="h-screen bg-background dark:bg-gray-900 border-r dark:border-gray-800 w-64 flex flex-col fixed left-0 top-0 z-40 hidden md:flex">
-  <div class="px-6 h-16 flex items-center border-b dark:border-gray-800" [style.background-color]="company?.primaryColor ? company.primaryColor + '10' : undefined">
+  <div class="px-6 h-16 flex items-center border-b dark:border-gray-800">
     <span class="text-xl font-bold text-primary">
       {{ company?.name || "ERP Turismo" }}
     </span>
@@ -20,12 +20,6 @@
     </nav>
 
     <div class="p-4 border-t dark:border-gray-800">
-      <div *ngIf="user?.role === 'ADMIN'" class="mb-4 p-2 bg-yellow-50 dark:bg-yellow-900/20 rounded-md text-xs text-yellow-800 dark:text-yellow-400">
-        <div class="font-medium flex items-center">
-          <i class="pi pi-shield mr-1"></i>
-          Nível de Acesso: Administrador
-        </div>
-      </div>
       <button pButton type="button" label="Sair" icon="pi pi-sign-out" class="p-button-outlined w-full" (click)="logout()"></button>
     </div>
   </div>
