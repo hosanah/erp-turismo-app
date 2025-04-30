@@ -1,12 +1,11 @@
 <div class="min-h-screen flex w-full bg-background text-foreground">
   <!-- Sidebar -->
-  <!-- Assuming app-sidebar will be styled to be fixed w-64 -->
-  <app-sidebar [visible]="sidebarVisible"></app-sidebar>
+  <!-- Pass mobileSidebarVisible to the correct input property -->
+  <app-sidebar [(mobileSidebarVisible)]="mobileSidebarVisible"></app-sidebar>
 
   <!-- Main Content Area -->
   <div class="flex flex-1 flex-col md:ml-64"> <!-- Offset for fixed sidebar -->
     <!-- Navbar/Header -->
-    <!-- Assuming app-navbar will be styled as sticky header -->
     <app-navbar (sidebarToggle)="toggleSidebar()"></app-navbar>
 
     <!-- Page Content -->

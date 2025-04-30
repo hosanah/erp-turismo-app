@@ -1,63 +1,44 @@
-<div class="h-screen bg-background dark:bg-gray-900 border-r dark:border-gray-800 w-64 flex flex-col fixed left-0 top-0 z-40 hidden md:flex"> <!-- Fixed sidebar, hidden on small screens, flex on medium+ -->
+<div class="h-screen bg-background dark:bg-gray-900 border-r dark:border-gray-800 w-64 flex flex-col fixed left-0 top-0 z-40 hidden md:flex">
   <!-- Logo/Header Section -->
-  <div class="px-6 h-16 flex items-center border-b dark:border-gray-800">
-    <!-- Placeholder for Logo/Company Name - Adapt based on actual data source -->
+  <div class="px-6 h-16 flex items-center border-b dark:border-gray-800" [style.background-color]="company?.primaryColor ? company.primaryColor + '10' : undefined">
     <span class="text-xl font-bold text-primary">
-      {{  "ERP Turismo" }}
+      {{ company?.name || "ERP Turismo" }}
     </span>
-    <!-- Example using an image if available -->
     <!-- <img *ngIf="company?.logo" [src]="company.logo" [alt]="company?.name || 'Logo'" class="h-8"> -->
   </div>
 
   <!-- Navigation Menu -->
   <div class="flex-1 flex flex-col overflow-y-auto">
     <nav class="flex-1 px-3 py-4">
-      <!-- Primary Links -->
       <ng-container *ngFor="let item of menuItems">
-        <a *ngIf="!item.items && hasPermission(item.roles)" 
-           [routerLink]="item.routerLink" 
-           routerLinkActive="bg-accent text-accent-foreground" 
+        <!-- Corrected <a> tag structure -->
+        <a *ngIf="!item.items && hasPermission(item.roles)"
+           [routerLink]="item.routerLink"
+           routerLinkActive="bg-accent text-accent-foreground"
            [routerLinkActiveOptions]="{exact: true}"
            class="flex items-center px-3 py-2 mb-1 text-sm font-medium rounded-md text-foreground hover:bg-accent/50 hover:text-accent-foreground">
-          <i [class]="'mr-3 ' + item.icon" style="font-size: 1rem;"></i> <!-- Using PrimeIcons -->
-          {{ item.label }}
+          <i [class]="'mr-3 ' + item.icon" style="font-size: 1rem;"></i>
+          <span>{{ item.label }}</span>
         </a>
         <!-- Add handling for submenus if needed -->
       </ng-container>
-
-      <!-- Secondary Links (Example - Adapt based on actual menu structure) -->
-      <!-- <div class="mt-8">
-        <ng-container *ngFor="let item of secondaryMenuItems">
-          <a *ngIf="hasPermission(item.roles)"
-             [routerLink]="item.routerLink"
-             routerLinkActive="bg-accent text-accent-foreground"
-             [routerLinkActiveOptions]="{exact: true}"
-             class="flex items-center px-3 py-2 mb-1 text-sm font-medium rounded-md text-foreground hover:bg-accent/50 hover:text-accent-foreground">
-            <i [class]="'mr-3 ' + item.icon" style="font-size: 1rem;"></i>
-            {{ item.label }}
-          </a>
-        </ng-container>
-      </div> -->
     </nav>
 
     <!-- User Info / Logout Section -->
     <div class="p-4 border-t dark:border-gray-800">
-      <!-- User Role Indicator (Example) -->
-      <div class="mb-4 p-2 bg-yellow-50 dark:bg-yellow-900/20 rounded-md text-xs text-yellow-800 dark:text-yellow-400">
+      <div *ngIf="user?.role === 'ADMIN'" class="mb-4 p-2 bg-yellow-50 dark:bg-yellow-900/20 rounded-md text-xs text-yellow-800 dark:text-yellow-400">
         <div class="font-medium flex items-center">
-          <i class="pi pi-shield mr-1"></i> <!-- Example icon -->
+          <i class="pi pi-shield mr-1"></i>
           Nível de Acesso: Administrador
         </div>
       </div>
-      
-      <!-- Logout Button -->
       <button pButton type="button" label="Sair" icon="pi pi-sign-out" class="p-button-outlined w-full" (click)="logout()"></button>
     </div>
   </div>
 </div>
 
-<!-- Optional: Add a separate p-sidebar for mobile view triggered by app-navbar -->
-<p-sidebar [showCloseIcon]="true" styleClass="w-64">
+<!-- Mobile Sidebar -->
+<p-sidebar [(visible)]="mobileSidebarVisible" (visibleChange)="mobileSidebarVisibleChange.emit($event)" [showCloseIcon]="true" styleClass="w-64">
   <ng-template pTemplate="header">
     <div class="flex items-center p-4">
       <span class="text-xl font-semibold">Menu</span>
@@ -65,14 +46,15 @@
   </ng-template>
   <nav class="flex-1 px-3 py-4">
       <ng-container *ngFor="let item of menuItems">
-        <a *ngIf="!item.items && hasPermission(item.roles)" 
-           [routerLink]="item.routerLink" 
-           routerLinkActive="bg-accent text-accent-foreground" 
+        <!-- Corrected <a> tag structure -->
+        <a *ngIf="!item.items && hasPermission(item.roles)"
+           [routerLink]="item.routerLink"
+           routerLinkActive="bg-accent text-accent-foreground"
            [routerLinkActiveOptions]="{exact: true}"
-           (click)="mobileSidebarVisible = false" 
+           (click)="mobileSidebarVisible = false"
            class="flex items-center px-3 py-2 mb-1 text-sm font-medium rounded-md text-foreground hover:bg-accent/50 hover:text-accent-foreground">
           <i [class]="'mr-3 ' + item.icon" style="font-size: 1rem;"></i>
-          {{ item.label }}
+          <span>{{ item.label }}</span>
         </a>
       </ng-container>
     </nav>

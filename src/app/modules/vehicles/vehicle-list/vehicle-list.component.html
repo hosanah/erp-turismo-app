@@ -1,5 +1,5 @@
 <!-- vehicle-list.component.html -->
-<div class="animate-fade-in"> <!-- Added fade-in animation -->
+<div class="animate-fade-in">
   <!-- Header -->
   <div class="flex items-center justify-between mb-6">
     <div>
@@ -12,7 +12,6 @@
   <!-- Toolbar/Filters -->
   <p-toolbar styleClass="mb-4 rounded-lg border dark:border-gray-700 bg-card dark:bg-gray-800">
     <ng-template pTemplate="left">
-      <!-- Placeholder for potential bulk actions -->
     </ng-template>
 
     <ng-template pTemplate="right">
@@ -33,11 +32,11 @@
       [paginator]="true"
       [globalFilterFields]="['plate', 'model', 'brand', 'year', 'capacity', 'status']"
       [rowHover]="true"
-      dataKey="id" 
+      dataKey="id"
       currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} veículos"
       [showCurrentPageReport]="true"
       [loading]="isLoading"
-      styleClass="p-datatable-sm" 
+      styleClass="p-datatable-sm"
       responsiveLayout="scroll">
 
       <ng-template pTemplate="header">
@@ -76,7 +75,7 @@
       </ng-template>
     </p-table>
   </div>
-</div>
+
 
 <!-- Vehicle Add/Edit Dialog -->
 <p-dialog
@@ -139,6 +138,6 @@
   </ng-template>
 </p-dialog>
 
-<!-- Confirmation Dialog -->
+<!-- Confirmation Dialog - Added closing tag -->
 <p-confirmDialog [style]="{width: '450px'}" styleClass="rounded-lg shadow-xl bg-card dark:bg-gray-800"></p-confirmDialog>
 

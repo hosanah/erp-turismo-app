@@ -9,8 +9,8 @@
   <div class="hidden md:flex items-center gap-2">
     <a routerLink="/dashboard" class="flex items-center gap-2">
       <!-- Adapt with actual company data source -->
-      <span class="text-xl font-bold" [style.color]="'var(--primary)'">
-        {{"ERP Turismo" }}
+      <span class="text-xl font-bold" [style.color]="company?.primaryColor || 'var(--primary)'">
+        {{ company?.name || "ERP Turismo" }}
       </span>
     </a>
   </div>
@@ -32,7 +32,7 @@
     <button pButton 
             type="button" 
             [icon]="isDarkTheme ? 'pi pi-sun' : 'pi pi-moon'" 
-            (click)="toggleSidebar()" 
+            (click)="toggleTheme()" 
             class="p-button-rounded p-button-text">
       <span class="sr-only">Alternar tema</span>
     </button>

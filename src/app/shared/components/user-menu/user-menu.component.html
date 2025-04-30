@@ -8,7 +8,7 @@
       [label]="userInitials" 
       shape="circle" 
       size="large" 
-      [style]="{ 'background-color': 'var(--primary)', 'color': 'var(--primary-foreground)' }" 
+      [style]="{ 'background-color': company?.primaryColor || 'var(--primary)', 'color': 'var(--primary-foreground)' }" 
       styleClass="h-8 w-8">
       <!-- Fallback content or image can be added here if needed -->
       <!-- <img *ngIf="user?.avatarUrl" [src]="user.avatarUrl" [alt]="user?.name || 'Avatar'" /> -->

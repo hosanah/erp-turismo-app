@@ -6,6 +6,19 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 // Importando o serviço real com caminho corrigido
 import { ClientService } from '../../../core/services/client.service';
 
+// Placeholder for Client type - replace with actual model
+interface Client {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  document?: string;
+  companyId?: string; // Added missing property
+  createdAt?: Date;   // Added missing property
+  isActive?: boolean; // Added missing property
+  // Add other properties as needed
+}
+
 @Component({
   selector: 'app-client-list',
   templateUrl: './client-list.component.html',
@@ -13,7 +26,8 @@ import { ClientService } from '../../../core/services/client.service';
 })
 export class ClientListComponent implements OnInit {
 
-  clients: any[] = [];
+  clients: Client[] = []; // Use Client interface
+  selectedClients: Client[] = []; // Added property for multiple selection
   displayClientDialog: boolean = false;
   clientForm!: FormGroup;
   clientDialogMode: 'add' | 'edit' = 'add';
@@ -77,7 +91,7 @@ export class ClientListComponent implements OnInit {
     this.displayClientDialog = true;
   }
 
-  editClient(client: any): void {
+  editClient(client: Client): void { // Use Client interface
     this.clientDialogMode = 'edit';
     this.selectedClientId = client.id;
     this.clientForm.patchValue(client);
@@ -122,7 +136,7 @@ export class ClientListComponent implements OnInit {
     }
   }
 
-  deleteClient(client: any): void {
+  deleteClient(client: Client): void { // Use Client interface
     this.confirmationService.confirm({
       message: `Tem certeza que deseja excluir o cliente ${client.name}?`,
       header: 'Confirmar Exclusão',
@@ -145,3 +159,4 @@ export class ClientListComponent implements OnInit {
     });
   }
 }
+

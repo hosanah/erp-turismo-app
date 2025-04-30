@@ -6,10 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./main-layout.component.scss']
 })
 export class MainLayoutComponent {
-  sidebarVisible: boolean = false;
+  // Renamed to match the input property in sidebar component for mobile view
+  mobileSidebarVisible: boolean = false;
 
   toggleSidebar() {
-    this.sidebarVisible = !this.sidebarVisible;
+    // This toggles the visibility for the mobile sidebar
+    this.mobileSidebarVisible = !this.mobileSidebarVisible;
   }
 
   // Potentially add logic here to control loading state globally
