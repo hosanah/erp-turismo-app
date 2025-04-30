@@ -8,7 +8,7 @@ import { MenuItem } from 'primeng/api';
 })
 export class UserMenuComponent implements OnInit {
   items: MenuItem[] = [];
-
+  userInitials: "Teste";
   ngOnInit() {
     this.items = [
       {

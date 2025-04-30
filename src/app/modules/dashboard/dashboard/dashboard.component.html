@@ -1,46 +1,91 @@
 <!-- dashboard.component.html -->
-<div class="p-4"> <!-- Replaced dashboard-container -->
-  <h2 class="text-2xl font-bold mb-4">Dashboard</h2> <!-- Replaced page-title -->
+<div class="animate-fade-in"> <!-- Added fade-in animation similar to layout-teste -->
+  <!-- Dashboard Header (Similar to layout-teste DashboardHeader) -->
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold tracking-tight text-foreground">Dashboard</h1>
+    <p class="text-sm text-muted-foreground">Visão geral do seu negócio.</p>
+  </div>
 
-  <!-- Replaced PrimeFlex grid with Tailwind grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-    <p-card header="Clientes Ativos" styleClass="shadow-md rounded-lg"> <!-- Added Tailwind shadow/rounding -->
-      <div class="text-center p-4">
-        <i class="pi pi-users text-blue-500 text-5xl mb-3"></i>
-        <div class="text-gray-900 font-bold text-xl">{{ activeClients }}</div>
-      </div>
+  <!-- Stat Cards (Similar to layout-teste StatCards) -->
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
+    <!-- Card 1: Clientes Ativos -->
+    <p-card styleClass="shadow-sm rounded-lg border dark:border-gray-700">
+      <ng-template pTemplate="title">
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-medium text-muted-foreground">Clientes Ativos</span>
+          <i class="pi pi-users text-muted-foreground"></i>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="content">
+        <div class="text-2xl font-bold text-foreground">{{ activeClients }}</div>
+        <!-- <p class="text-xs text-muted-foreground">+5 desde o último mês</p> -->
+      </ng-template>
     </p-card>
-    <p-card header="Eventos Próximos" styleClass="shadow-md rounded-lg">
-      <div class="text-center p-4">
-        <i class="pi pi-calendar text-orange-500 text-5xl mb-3"></i>
-        <div class="text-gray-900 font-bold text-xl">{{ upcomingEvents }}</div>
-      </div>
+
+    <!-- Card 2: Eventos Próximos -->
+    <p-card styleClass="shadow-sm rounded-lg border dark:border-gray-700">
+      <ng-template pTemplate="title">
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-medium text-muted-foreground">Eventos Próximos</span>
+          <i class="pi pi-calendar text-muted-foreground"></i>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="content">
+        <div class="text-2xl font-bold text-foreground">{{ upcomingEvents }}</div>
+        <!-- <p class="text-xs text-muted-foreground">+2 agendados esta semana</p> -->
+      </ng-template>
     </p-card>
-    <p-card header="Vendas (Mês)" styleClass="shadow-md rounded-lg">
-      <div class="text-center p-4">
-        <i class="pi pi-shopping-cart text-green-500 text-5xl mb-3"></i>
-        <div class="text-gray-900 font-bold text-xl">{{ monthlySales | currency:
-        'BRL' }}</div>
-      </div>
+
+    <!-- Card 3: Vendas (Mês) -->
+    <p-card styleClass="shadow-sm rounded-lg border dark:border-gray-700">
+      <ng-template pTemplate="title">
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-medium text-muted-foreground">Vendas (Mês)</span>
+          <i class="pi pi-shopping-cart text-muted-foreground"></i>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="content">
+        <div class="text-2xl font-bold text-foreground">{{ monthlySales | currency: 'BRL' }}</div>
+        <!-- <p class="text-xs text-muted-foreground">+12% em relação ao mês passado</p> -->
+      </ng-template>
     </p-card>
-    <p-card header="Motoristas Disponíveis" styleClass="shadow-md rounded-lg">
-      <div class="text-center p-4">
-        <i class="pi pi-id-card text-purple-500 text-5xl mb-3"></i>
-        <div class="text-gray-900 font-bold text-xl">{{ availableDrivers }}</div>
-      </div>
+
+    <!-- Card 4: Motoristas Disponíveis -->
+    <p-card styleClass="shadow-sm rounded-lg border dark:border-gray-700">
+      <ng-template pTemplate="title">
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-medium text-muted-foreground">Motoristas Disponíveis</span>
+          <i class="pi pi-id-card text-muted-foreground"></i>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="content">
+        <div class="text-2xl font-bold text-foreground">{{ availableDrivers }}</div>
+        <!-- <p class="text-xs text-muted-foreground">3 em rota no momento</p> -->
+      </ng-template>
     </p-card>
   </div>
 
-  <div> <!-- Removed mt-4, handled by grid gap -->
-    <p-panel header="Ações Rápidas" styleClass="shadow-md rounded-lg">
-      <!-- Replaced PrimeFlex grid with Tailwind grid -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
-        <button pButton type="button" label="Novo Evento" icon="pi pi-plus" class="w-full p-button-info" routerLink="/events/new"></button> <!-- Assuming plugin styles p-button-info -->
-        <button pButton type="button" label="Nova Venda" icon="pi pi-shopping-cart" class="w-full p-button-success" routerLink="/sales/new"></button> <!-- Assuming plugin styles p-button-success -->
-        <button pButton type="button" label="Ver Calendário" icon="pi pi-calendar" class="w-full p-button-warning" routerLink="/calendar"></button> <!-- Assuming plugin styles p-button-warning -->
+  <!-- Quick Actions Panel -->
+  <div>
+    <p-panel header="Ações Rápidas" styleClass="shadow-sm rounded-lg border dark:border-gray-700">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
+        <!-- Using Tailwind classes for button styling via PrimeNG Tailwind theme -->
+        <button pButton type="button" label="Novo Evento" icon="pi pi-plus" class="w-full bg-primary hover:bg-primary/90 text-primary-foreground" routerLink="/events/new"></button>
+        <button pButton type="button" label="Nova Venda" icon="pi pi-shopping-cart" class="w-full bg-esmeralda hover:bg-esmeralda-dark text-white" routerLink="/sales/new"></button> <!-- Example using custom color -->
+        <button pButton type="button" label="Ver Calendário" icon="pi pi-calendar" class="w-full bg-laranja hover:bg-laranja-dark text-gray-900" routerLink="/calendar"></button> <!-- Example using custom color -->
       </div>
     </p-panel>
   </div>
+
+  <!-- Placeholder for other dashboard sections like charts or tables -->
+  <!-- <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+    <p-card header="Vendas Recentes" styleClass="shadow-sm rounded-lg border dark:border-gray-700">
+      Content for recent sales...
+    </p-card>
+    <p-card header="Próximos Eventos" styleClass="shadow-sm rounded-lg border dark:border-gray-700">
+      Content for upcoming events...
+    </p-card>
+  </div> -->
 
 </div>
 

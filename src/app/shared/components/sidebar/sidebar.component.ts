@@ -24,5 +24,9 @@ export class SidebarComponent implements OnInit {
       // Adicione mais itens conforme necessário
     ];
   }
+
+  logout(){
+    
+  }
 }
 

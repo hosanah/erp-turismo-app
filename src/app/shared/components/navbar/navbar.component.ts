@@ -7,7 +7,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class NavbarComponent {
   @Output() sidebarToggle = new EventEmitter<void>();
-
+  isDarkTheme: boolean;
   toggleSidebar() {
     this.sidebarToggle.emit();
   }

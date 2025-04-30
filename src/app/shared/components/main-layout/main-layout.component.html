@@ -1,22 +1,25 @@
-<div class="flex flex-col h-screen">
-  <!-- Navbar -->
-  <app-navbar (sidebarToggle)="toggleSidebar()"></app-navbar>
+<div class="min-h-screen flex w-full bg-background text-foreground">
+  <!-- Sidebar -->
+  <!-- Assuming app-sidebar will be styled to be fixed w-64 -->
+  <app-sidebar [visible]="sidebarVisible"></app-sidebar>
 
-  <div class="flex flex-1 overflow-hidden">
-    <!-- Sidebar -->
-    <app-sidebar [visible]="sidebarVisible"></app-sidebar>
+  <!-- Main Content Area -->
+  <div class="flex flex-1 flex-col md:ml-64"> <!-- Offset for fixed sidebar -->
+    <!-- Navbar/Header -->
+    <!-- Assuming app-navbar will be styled as sticky header -->
+    <app-navbar (sidebarToggle)="toggleSidebar()"></app-navbar>
 
-    <!-- Main Content Area -->
-    <main class="flex-1 overflow-y-auto p-6 bg-surface-ground">
-      <!-- Breadcrumb -->
+    <!-- Page Content -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-6">
+      <!-- Breadcrumb (Optional, keep if needed) -->
       <app-breadcrumb></app-breadcrumb>
 
-      <!-- Page Content -->
+      <!-- Router Outlet -->
       <router-outlet></router-outlet>
     </main>
   </div>
 
-  <!-- Loading Indicator -->
-  <app-loading [visible]="isLoading"></app-loading> <!-- Bind to isLoading property -->
+  <!-- Loading Indicator (Keep outside or overlay as needed) -->
+  <app-loading [visible]="isLoading"></app-loading>
 </div>
 

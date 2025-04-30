@@ -1,8 +1,34 @@
 <div class="relative">
-  <button pButton type="button" class="p-button-rounded p-button-text p-button-plain" (click)="menu.toggle($event)">
-    <p-avatar icon="pi pi-user" styleClass="mr-2" shape="circle"></p-avatar>
-    <!-- Pode adicionar o nome do usuário aqui se disponível -->
+  <!-- Dropdown Trigger Button -->
+  <button pButton 
+          type="button" 
+          class="p-button-secondary p-button-rounded p-button-text p-0" 
+          (click)="menu.toggle($event)">
+    <p-avatar 
+      [label]="userInitials" 
+      shape="circle" 
+      size="large" 
+      [style]="{ 'background-color': 'var(--primary)', 'color': 'var(--primary-foreground)' }" 
+      styleClass="h-8 w-8">
+      <!-- Fallback content or image can be added here if needed -->
+      <!-- <img *ngIf="user?.avatarUrl" [src]="user.avatarUrl" [alt]="user?.name || 'Avatar'" /> -->
+    </p-avatar>
   </button>
-  <p-menu #menu [model]="items" [popup]="true"></p-menu>
+
+  <!-- PrimeNG Menu Popup -->
+  <p-menu #menu 
+          [model]="items" 
+          [popup]="true" 
+          styleClass="dark:bg-gray-800 dark:border-gray-700" 
+          appendTo="body">
+    <!-- Customizing menu items might require template overrides or adapting the items array in TS -->
+    <ng-template pTemplate="item" let-item>
+      <a [routerLink]="item.routerLink" class="p-menuitem-link flex items-center px-3 py-2 text-sm dark:text-gray-200 dark:hover:bg-gray-700" [ngClass]="{'text-destructive dark:text-red-500 focus:text-destructive dark:focus:text-red-500': item.styleClass === 'text-destructive'}">
+        <span [class]="item.icon"></span>
+        <span class="ml-2">{{item.label}}</span>
+        <!-- Add badges or other elements if needed based on item properties -->
+      </a>
+    </ng-template>
+  </p-menu>
 </div>
 

@@ -1,17 +1,13 @@
+/* Import Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* You can add global styles to this file, and also import other style files */
 
-/* Estilos básicos para o corpo da página */
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  margin: 0;
-  padding: 0;
-  background-color: #f8f9fa;
-  color: #495057;
-}
-
-/* Estilos do PrimeNG */
-:root {
-  --primary-color: #3B82F6;
+/* Keep PrimeNG theme variables if needed, or manage them via Tailwind config/theme preset */
+/* :root {
+  --primary-color: #3B82F6; // This will likely be overridden by Tailwind config
   --primary-color-text: #ffffff;
   --surface-a: #ffffff;
   --surface-b: #f8f9fa;
@@ -21,278 +17,94 @@ body {
   --surface-f: #ffffff;
   --text-color: #495057;
   --text-color-secondary: #6c757d;
-  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; // Will be overridden by Tailwind config
+} */
+
+/* Define CSS variables used in tailwind.config.js if not provided by theme */
+:root {
+  --radius: 0.5rem; /* Example value, adjust as needed based on layout-teste */
+  /* Define primary, secondary, accent etc. based on PrimeNG Tailwind theme structure or map directly */
+  /* Example mapping turquesa to primary */
+  --primary: 27 91% 58%; /* HSL for #1A9CB0 - Adjust if PrimeNG Tailwind uses different format */
+  --primary-foreground: 0 0% 100%; /* White */
+
+  /* Define other colors based on the strategy */
+  --secondary: 166 100% 34%; /* HSL for #00AD8C (esmeralda) */
+  --secondary-foreground: 0 0% 100%;
+  --accent: 30 100% 72%; /* HSL for #FFB572 (laranja) */
+  --accent-foreground: 0 0% 20%; /* Darker text for accent */
+
+  /* Standard Tailwind/shadcn variables (adjust values based on PrimeNG Tailwind theme) */
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+  --ring: 215 20.2% 65.1%;
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
 }
 
-/* Layout básico */
-.container {
-  padding: 1rem;
-  max-width: 1200px;
-  margin: 0 auto;
+.dark {
+  /* Define dark mode variables */
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 212.7 26.8% 83.9%;
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  /* Add dark versions for primary, secondary, accent etc. */
+  --primary: 27 91% 58%; /* Keep same primary or adjust */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 166 100% 34%;
+  --secondary-foreground: 0 0% 100%;
+  --accent: 30 100% 72%;
+  --accent-foreground: 0 0% 20%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
 }
 
-.card {
-  background: #ffffff;
-  padding: 1.5rem;
-  border-radius: 10px;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
-              0 1px 1px 0 rgba(0, 0, 0, 0.14),
-              0 1px 3px 0 rgba(0, 0, 0, 0.12);
-}
-
-.page-title {
-  color: var(--primary-color);
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-/* Grid system */
-.grid {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -0.5rem;
-  margin-left: -0.5rem;
-  margin-top: -0.5rem;
-}
-
-.col, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
-  padding: 0.5rem;
-  position: relative;
-  width: 100%;
-  min-height: 1px;
-}
-
-.col-12 { flex: 0 0 100%; max-width: 100%; }
-.col-11 { flex: 0 0 91.66666667%; max-width: 91.66666667%; }
-.col-10 { flex: 0 0 83.33333333%; max-width: 83.33333333%; }
-.col-9 { flex: 0 0 75%; max-width: 75%; }
-.col-8 { flex: 0 0 66.66666667%; max-width: 66.66666667%; }
-.col-7 { flex: 0 0 58.33333333%; max-width: 58.33333333%; }
-.col-6 { flex: 0 0 50%; max-width: 50%; }
-.col-5 { flex: 0 0 41.66666667%; max-width: 41.66666667%; }
-.col-4 { flex: 0 0 33.33333333%; max-width: 33.33333333%; }
-.col-3 { flex: 0 0 25%; max-width: 25%; }
-.col-2 { flex: 0 0 16.66666667%; max-width: 16.66666667%; }
-.col-1 { flex: 0 0 8.33333333%; max-width: 8.33333333%; }
-
-@media (min-width: 768px) {
-  .md\:col-12 { flex: 0 0 100%; max-width: 100%; }
-  .md\:col-11 { flex: 0 0 91.66666667%; max-width: 91.66666667%; }
-  .md\:col-10 { flex: 0 0 83.33333333%; max-width: 83.33333333%; }
-  .md\:col-9 { flex: 0 0 75%; max-width: 75%; }
-  .md\:col-8 { flex: 0 0 66.66666667%; max-width: 66.66666667%; }
-  .md\:col-7 { flex: 0 0 58.33333333%; max-width: 58.33333333%; }
-  .md\:col-6 { flex: 0 0 50%; max-width: 50%; }
-  .md\:col-5 { flex: 0 0 41.66666667%; max-width: 41.66666667%; }
-  .md\:col-4 { flex: 0 0 33.33333333%; max-width: 33.33333333%; }
-  .md\:col-3 { flex: 0 0 25%; max-width: 25%; }
-  .md\:col-2 { flex: 0 0 16.66666667%; max-width: 16.66666667%; }
-  .md\:col-1 { flex: 0 0 8.33333333%; max-width: 8.33333333%; }
-}
-
-/* Utilitários de flexbox */
-.flex { display: flex; }
-.flex-column { flex-direction: column; }
-.flex-row { flex-direction: row; }
-.justify-content-start { justify-content: flex-start; }
-.justify-content-end { justify-content: flex-end; }
-.justify-content-center { justify-content: center; }
-.justify-content-between { justify-content: space-between; }
-.justify-content-around { justify-content: space-around; }
-.align-items-start { align-items: flex-start; }
-.align-items-end { align-items: flex-end; }
-.align-items-center { align-items: center; }
-.align-items-baseline { align-items: baseline; }
-.align-items-stretch { align-items: stretch; }
-
-/* Espaçamento */
-.m-0 { margin: 0; }
-.m-1 { margin: 0.25rem; }
-.m-2 { margin: 0.5rem; }
-.m-3 { margin: 1rem; }
-.m-4 { margin: 1.5rem; }
-.m-5 { margin: 3rem; }
-
-.mt-0 { margin-top: 0; }
-.mt-1 { margin-top: 0.25rem; }
-.mt-2 { margin-top: 0.5rem; }
-.mt-3 { margin-top: 1rem; }
-.mt-4 { margin-top: 1.5rem; }
-.mt-5 { margin-top: 3rem; }
-
-.mb-0 { margin-bottom: 0; }
-.mb-1 { margin-bottom: 0.25rem; }
-.mb-2 { margin-bottom: 0.5rem; }
-.mb-3 { margin-bottom: 1rem; }
-.mb-4 { margin-bottom: 1.5rem; }
-.mb-5 { margin-bottom: 3rem; }
-
-.p-0 { padding: 0; }
-.p-1 { padding: 0.25rem; }
-.p-2 { padding: 0.5rem; }
-.p-3 { padding: 1rem; }
-.p-4 { padding: 1.5rem; }
-.p-5 { padding: 3rem; }
-
-/* Estilos para formulários */
-.field {
-  margin-bottom: 1rem;
-}
-
-.field label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-}
-
-input, select, textarea {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  font-family: var(--font-family);
-  font-size: 1rem;
-  color: var(--text-color);
-  background-color: #fff;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-input:focus, select:focus, textarea:focus {
-  outline: 0;
-  border-color: #80bdff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-/* Estilos para botões */
-button, .p-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  cursor: pointer;
-  user-select: none;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  background-color: var(--primary-color);
-  color: var(--primary-color-text);
-  margin-right: 0.5rem;
-}
-
-button:hover, .p-button:hover {
-  opacity: 0.9;
-}
-
-button:disabled, .p-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.p-button-text {
-  background-color: transparent;
-  color: var(--primary-color);
-  border-color: transparent;
-}
-
-.p-button-text:hover {
-  background-color: rgba(59, 130, 246, 0.04);
-  color: var(--primary-color);
-  border-color: transparent;
-}
-
-/* Estilos para tabelas */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1rem;
-}
-
-th, td {
-  padding: 0.75rem;
-  vertical-align: top;
-  border-top: 1px solid #dee2e6;
-  text-align: left;
-}
-
-thead th {
-  vertical-align: bottom;
-  border-bottom: 2px solid #dee2e6;
-  background-color: #f8f9fa;
-  font-weight: 600;
-}
-
-/* Estilos para diálogos */
-.dialog-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.dialog {
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
-  width: 50vw;
-  max-width: 90vw;
-  max-height: 90vh;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.dialog-header {
-  padding: 1.5rem;
-  border-bottom: 1px solid #dee2e6;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.dialog-title {
+/* Basic body styles - Tailwind base should handle most */
+body {
+  font-family: Inter, sans-serif; /* Set default font */
   margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
+  padding: 0;
+  /* background-color: #f8f9fa; */ /* Let Tailwind handle background */
+  /* color: #495057; */ /* Let Tailwind handle text color */
 }
 
-.dialog-content {
-  padding: 1.5rem;
-  overflow: auto;
-}
+/* Remove or comment out conflicting custom styles */
+/*
+.container { ... }
+.card { ... }
+.page-title { ... }
+.grid { ... }
+.col, .col-1, ... { ... }
+@media (min-width: 768px) { ... }
+.flex { ... }
+.flex-column { ... }
+...
+.m-0 { ... }
+...
+.field { ... }
+input, select, textarea { ... }
+button, .p-button { ... }
+table { ... }
+th, td { ... }
+.dialog-overlay { ... }
+.dialog { ... }
+...
+.w-full { ... } // Use Tailwind w-full instead
+...
+*/
 
-.dialog-footer {
-  padding: 1rem 1.5rem;
-  border-top: 1px solid #dee2e6;
-  display: flex;
-  justify-content: flex-end;
-}
-
-/* Utilitários adicionais */
-.w-full { width: 100%; }
-.h-full { height: 100%; }
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
-.font-bold { font-weight: 700; }
-.font-semibold { font-weight: 600; }
-.text-primary { color: var(--primary-color); }
-.bg-primary { background-color: var(--primary-color); }
-.text-white { color: #ffffff; }
-.rounded { border-radius: 0.25rem; }
-.shadow { box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); }
-.overflow-hidden { overflow: hidden; }
-.cursor-pointer { cursor: pointer; }

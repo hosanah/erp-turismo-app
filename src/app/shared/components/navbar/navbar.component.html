@@ -1,11 +1,51 @@
-<p-toolbar styleClass="bg-primary text-primary-contrast p-4 flex items-center justify-between shadow-md">
-  <div class="flex items-center">
-    <button pButton type="button" icon="pi pi-bars" (click)="toggleSidebar()" class="p-button-text text-primary-contrast mr-4"></button>
-    <span class="text-xl font-semibold">ERP Turismo</span>
+<header class="sticky top-0 z-30 flex h-16 w-full items-center gap-4 border-b bg-background dark:bg-gray-900 dark:border-gray-800 px-4 md:px-6">
+  <!-- Mobile Sidebar Toggle -->
+  <div class="md:hidden">
+    <button pButton type="button" icon="pi pi-bars" (click)="toggleSidebar()" class="p-button-text p-button-rounded"></button>
+    <span class="sr-only">Alternar menu</span>
   </div>
-  <div class="flex items-center">
-    <!-- Placeholder for search or other icons -->
-    <app-user-menu></app-user-menu>
+
+  <!-- Company Name/Logo (Desktop) -->
+  <div class="hidden md:flex items-center gap-2">
+    <a routerLink="/dashboard" class="flex items-center gap-2">
+      <!-- Adapt with actual company data source -->
+      <span class="text-xl font-bold" [style.color]="'var(--primary)'">
+        {{"ERP Turismo" }}
+      </span>
+    </a>
   </div>
-</p-toolbar>
+
+  <!-- Right Side Elements -->
+  <div class="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
+    <!-- Search Bar (Desktop) -->
+    <form class="ml-auto hidden flex-1 sm:flex sm:max-w-[400px] lg:max-w-[500px]">
+      <div class="relative w-full">
+        <i class="pi pi-search absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"></i>
+        <input type="search" 
+               pInputText 
+               placeholder="Buscar..." 
+               class="w-full bg-background dark:bg-gray-800 pl-8 md:w-[300px] lg:w-[400px]" />
+      </div>
+    </form>
+
+    <!-- Theme Toggle Button -->
+    <button pButton 
+            type="button" 
+            [icon]="isDarkTheme ? 'pi pi-sun' : 'pi pi-moon'" 
+            (click)="toggleSidebar()" 
+            class="p-button-rounded p-button-text">
+      <span class="sr-only">Alternar tema</span>
+    </button>
+
+    <!-- Notifications Button -->
+    <button pButton type="button" icon="pi pi-bell" class="p-button-rounded p-button-text">
+      <!-- Add badge or indicator if needed -->
+      <span class="sr-only">Notificações</span>
+    </button>
+
+    <!-- User Menu -->
+    <app-user-menu></app-user-menu> <!-- Ensure app-user-menu trigger/styling is adapted -->
+
+  </div>
+</header>
 
