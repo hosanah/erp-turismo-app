@@ -15,7 +15,6 @@ interface Company {
 export class NavbarComponent implements OnInit {
   @Output() sidebarToggle = new EventEmitter<void>();
 
-  // Placeholder for company data - inject a service later
   company: Company | null = {
     name: 'ERP Turismo',
     primaryColor: '#06b6d4' // Default cyan color
@@ -27,7 +26,6 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      // Initialize theme based on localStorage or system preference
       this.isDarkTheme = localStorage.getItem('theme') === 'dark' || 
                          (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
       this.updateHtmlClass();
