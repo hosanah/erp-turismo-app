@@ -1,4 +1,4 @@
-<header class="sticky top-0 z-30 flex h-16 w-full items-center gap-4 border-b bg-background dark:bg-gray-900 dark:border-gray-800 px-4 md:px-6">
+<header class="sticky top-0 z-30 flex h-16 w-full items-center gap-4 border-b bg-background my-app-dark:bg-gray-900 my-app-dark:border-gray-800 px-4 md:px-6">
   <div class="md:hidden">
     <button pButton type="button" icon="pi pi-bars" (click)="toggleSidebar()" class="p-button-text p-button-rounded"></button>
     <span class="sr-only">Alternar menu</span>
@@ -24,14 +24,14 @@
                (input)="searchRoutes()"
                (focus)="searchTerm.length > 0 && (showSuggestions = true)"
                (blur)="hideSuggestions()"
-               class="w-full bg-background dark:bg-gray-800 !pl-8 pr-3 md:w-[300px] lg:w-[400px]" />
+               class="w-full bg-background my-app-dark:bg-gray-800 !pl-8 pr-3 md:w-[300px] lg:w-[400px]" />
         
         <div *ngIf="showSuggestions && filteredRoutes.length > 0" 
-             class="absolute z-50 mt-1 w-full bg-white dark:bg-gray-800 shadow-lg rounded-md border border-gray-200 dark:border-gray-700">
+             class="absolute z-50 mt-1 w-full bg-white my-app-dark:bg-gray-800 shadow-lg rounded-md border border-gray-200 my-app-dark:border-gray-700">
           <ul>
             <li *ngFor="let route of filteredRoutes" 
                 (mousedown)="navigateTo(route.path)"
-                class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+                class="px-4 py-2 hover:bg-gray-100 my-app-dark:hover:bg-gray-700 cursor-pointer">
               {{ route.label }}
             </li>
           </ul>
