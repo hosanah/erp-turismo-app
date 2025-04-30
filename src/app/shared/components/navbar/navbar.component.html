@@ -19,7 +19,23 @@
         <input type="search" 
                pInputText 
                placeholder="Buscar..." 
+               [(ngModel)]="searchTerm"
+               [ngModelOptions]="{standalone: true}"
+               (input)="searchRoutes()"
+               (focus)="searchTerm.length > 0 && (showSuggestions = true)"
+               (blur)="hideSuggestions()"
                class="w-full bg-background dark:bg-gray-800 !pl-8 pr-3 md:w-[300px] lg:w-[400px]" />
+        
+        <div *ngIf="showSuggestions && filteredRoutes.length > 0" 
+             class="absolute z-50 mt-1 w-full bg-white dark:bg-gray-800 shadow-lg rounded-md border border-gray-200 dark:border-gray-700">
+          <ul>
+            <li *ngFor="let route of filteredRoutes" 
+                (mousedown)="navigateTo(route.path)"
+                class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+              {{ route.label }}
+            </li>
+          </ul>
+        </div>
       </div>
     </form>
 
@@ -31,9 +47,9 @@
       <span class="sr-only">Alternar tema</span>
     </button>
 
-    <button pButton type="button" icon="pi pi-bell" class="p-button-rounded p-button-text">
+    <!-- <button pButton type="button" icon="pi pi-bell" class="p-button-rounded p-button-text">
       <span class="sr-only">Notificações</span>
-    </button>
+    </button>-->
 
     <app-user-menu></app-user-menu> 
 </div>

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 // PrimeNG Modules
 import { MenubarModule } from 'primeng/menubar';
@@ -21,6 +22,7 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
 import { LoadingComponent } from './components/loading/loading.component';
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
 
+
 @NgModule({
   declarations: [
     NavbarComponent,
@@ -33,6 +35,7 @@ import { MainLayoutComponent } from './components/main-layout/main-layout.compon
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
     // PrimeNG
     MenubarModule,
     SidebarModule,
