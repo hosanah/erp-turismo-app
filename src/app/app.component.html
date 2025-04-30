@@ -1,8 +1,6 @@
-<p-toast></p-toast> <!-- Manter o Toast para notificações -->
+<p-toast></p-toast>
 
-<!-- Renderizar o layout principal se autenticado -->
 <app-main-layout *ngIf="authService.isAuthenticated()"></app-main-layout>
 
-<!-- Renderizar o conteúdo de login/outras rotas não autenticadas diretamente -->
 <router-outlet *ngIf="!authService.isAuthenticated()"></router-outlet>
 

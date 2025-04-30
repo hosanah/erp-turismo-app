@@ -1,24 +1,16 @@
 <div class="min-h-screen flex w-full bg-background text-foreground">
-  <!-- Sidebar -->
-  <!-- Pass mobileSidebarVisible to the correct input property -->
   <app-sidebar [(mobileSidebarVisible)]="mobileSidebarVisible"></app-sidebar>
 
-  <!-- Main Content Area -->
-  <div class="flex flex-1 flex-col md:ml-64"> <!-- Offset for fixed sidebar -->
-    <!-- Navbar/Header -->
+  <div class="flex flex-1 flex-col md:ml-64"> 
     <app-navbar (sidebarToggle)="toggleSidebar()"></app-navbar>
 
-    <!-- Page Content -->
     <main class="flex-1 overflow-y-auto p-4 md:p-6">
-      <!-- Breadcrumb (Optional, keep if needed) -->
       <app-breadcrumb></app-breadcrumb>
 
-      <!-- Router Outlet -->
       <router-outlet></router-outlet>
     </main>
   </div>
 
-  <!-- Loading Indicator (Keep outside or overlay as needed) -->
   <app-loading [visible]="isLoading"></app-loading>
 </div>
 
