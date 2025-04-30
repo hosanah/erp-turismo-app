@@ -130,9 +130,9 @@ export class NavbarComponent implements OnInit {
   private updateHtmlClass() {
     if (isPlatformBrowser(this.platformId)) {
       if (this.isDarkTheme) {
-        document.documentElement.classList.add('dark');
+        document.documentElement.classList.add('my-app-dark');
       } else {
-        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.remove('my-app-dark');
       }
     }
   }
