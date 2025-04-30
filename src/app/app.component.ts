@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, HostBinding, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { AuthService } from './core/services/auth.service';
 import { Router } from '@angular/router';
-import { MainLayoutComponent } from './shared/components/main-layout/main-layout.component'; // Importar MainLayoutComponent
-import { SharedModule } from './shared/shared.module'; // Importar SharedModule
+import { SharedModule } from './shared/shared.module'; 
+import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -15,28 +15,28 @@ import { SharedModule } from './shared/shared.module'; // Importar SharedModule
     CommonModule,
     RouterOutlet,
     ToastModule,
-    SharedModule, // Adicionar SharedModule aqui para disponibilizar os componentes
-    // MainLayoutComponent // Ou importar diretamente se preferir
+    SharedModule, 
   ],
-  providers: [MessageService], // AuthService já deve ser providedIn: 'root'
+  providers: [MessageService], 
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
   title = 'ERP Turismo';
-
+  private themeService = inject(ThemeService);
+  
   constructor(
-    public authService: AuthService, // Manter AuthService para lógica de autenticação
+    public authService: AuthService, 
     private router: Router,
     private messageService: MessageService
   ) {}
 
   ngOnInit() {
-    // Lógica de inicialização, se necessário
+    const currentColorTheme = this.themeService.getPreferredColorTheme();
+
+    this.themeService.setColorTheme(currentColorTheme);
   }
 
-  // A função logout pode ser movida para o UserMenuComponent ou mantida aqui
-  // Se movida, o UserMenuComponent precisará injetar AuthService e Router
   logout() {
     this.authService.logout();
     this.messageService.add({
@@ -46,5 +46,6 @@ export class AppComponent implements OnInit {
     });
     this.router.navigate(['/login']);
   }
+
 }
 

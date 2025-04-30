@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Output, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, Inject, PLATFORM_ID, signal, HostBinding, effect, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
+import { ThemeService } from '../../../core/services/theme.service';
 
 // Placeholder for Company data - replace with actual service/data
 interface Company {
@@ -19,6 +20,7 @@ export class NavbarComponent implements OnInit {
   searchTerm = '';
   showSuggestions = false;
   availableRoutes: { path: string, label: string }[] = [];
+  public themeService = inject(ThemeService)
 
   company: Company | null = {
     name: 'ERP Turismo',
@@ -31,14 +33,10 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private router: Router) {}
+    private router: Router) 
+    {}
 
   ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.isDarkTheme = localStorage.getItem('theme') === 'dark' || 
-                         (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
-      this.updateHtmlClass();
-    }
     this.loadAvailableRoutes();
   }
 
@@ -62,8 +60,8 @@ export class NavbarComponent implements OnInit {
     const fullPath = parentPath ? `${parentPath}/${route.path}` : `/${route.path}`;
     
     if (route.path && 
-        !route.path.includes(':') && // Ignora rotas com parâmetros
-        !route.path.includes('*') && // Ignora wildcards
+        !route.path.includes(':') && 
+        !route.path.includes('*') && 
         route.data?.showInSearch !== false) {
       
       this.availableRoutes.push({
@@ -117,24 +115,6 @@ export class NavbarComponent implements OnInit {
 
   toggleSidebar() {
     this.sidebarToggle.emit();
-  }
-
-  toggleTheme() {
-    this.isDarkTheme = !this.isDarkTheme;
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('theme', this.isDarkTheme ? 'dark' : 'light');
-      this.updateHtmlClass();
-    }
-  }
-
-  private updateHtmlClass() {
-    if (isPlatformBrowser(this.platformId)) {
-      if (this.isDarkTheme) {
-        document.documentElement.classList.add('my-app-dark');
-      } else {
-        document.documentElement.classList.remove('my-app-dark');
-      }
-    }
   }
 }
 
