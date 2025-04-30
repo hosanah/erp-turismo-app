@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { AuthService } from '../../../core/services/auth.service';
 
-// Placeholder interfaces - replace with actual models/services
 interface Company {
   name: string;
   primaryColor: string;
@@ -20,29 +20,30 @@ interface User {
 export class UserMenuComponent implements OnInit {
   items: MenuItem[] = [];
 
-  // Placeholder data - replace with actual service injections
   user: User | null = {
     name: 'Usuário Teste',
     email: 'teste@example.com'
   };
   company: Company | null = {
     name: 'ERP Turismo',
-    primaryColor: '#06b6d4' // Default cyan color
+    primaryColor: '#06b6d4'
   };
 
   userInitials: string = '';
+
+  constructor(
+    private authService: AuthService
+  ){}
 
   ngOnInit() {
     this.items = [
       {
         label: 'Perfil',
         icon: 'pi pi-user',
-        // command: () => { /* Navegar para perfil */ }
       },
       {
         label: 'Configurações',
         icon: 'pi pi-cog',
-        // command: () => { /* Navegar para configurações */ }
       },
       {
         separator: true
@@ -50,7 +51,7 @@ export class UserMenuComponent implements OnInit {
       {
         label: 'Sair',
         icon: 'pi pi-sign-out',
-        command: () => { this.logout(); } // Call logout method
+        command: () => { this.logout(); }
       }
     ];
 
@@ -70,10 +71,8 @@ export class UserMenuComponent implements OnInit {
     }
   }
 
-  // Placeholder logout - replace with actual logic (e.g., AuthService)
   logout() {
-    console.log('Logout clicked from UserMenu');
-    // Add actual logout logic here (clear token, navigate to login, etc.)
+    this.authService.logout()
   }
 }
 

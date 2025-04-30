@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { AuthService } from '../../../core/services/auth.service';
 
-// Placeholder interfaces - replace with actual models/services
 interface Company {
   name: string;
   primaryColor: string;
@@ -10,7 +10,7 @@ interface Company {
 
 interface User {
   name: string;
-  role: string; // Example: 'ADMIN', 'USER'
+  role: string; 
 }
 
 @Component({
@@ -19,9 +19,12 @@ interface User {
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  // Input/Output for mobile sidebar visibility (if controlled by parent)
   @Input() mobileSidebarVisible: boolean = false;
   @Output() mobileSidebarVisibleChange = new EventEmitter<boolean>();
+
+  constructor(
+      private authService: AuthService
+    ){}
 
   company: Company | null = {
     name: 'ERP Turismo',
@@ -55,10 +58,10 @@ export class SidebarComponent implements OnInit {
     return !!this.user && roles.includes(this.user.role);
   }
 
-  logout() {
-    console.log('Logout clicked');
+  logout() {    
     this.mobileSidebarVisible = false; 
     this.mobileSidebarVisibleChange.emit(false);
+    this.authService.logout();
   }
 }
 

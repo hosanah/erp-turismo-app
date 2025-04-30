@@ -34,7 +34,6 @@ export class AuthService {
         tap(response => this.handleAuthentication(response)),
         catchError(error => {
           console.error('Erro no login:', error);
-          // Provide a more specific error message if possible from backend
           return throwError(() => new Error('Falha na autenticação. Verifique suas credenciais.'));
         })
       );
@@ -65,13 +64,9 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  // Added method to check if the current user is a master user
   isMasterUser(): boolean {
     const user = this.getCurrentUser();
-    // Adjust the condition based on how master user is identified (e.g., role, specific property)
-    // Example: return user && user.role === 'Master';
-    // Example: return user && user.isMaster === true;
-    return user && (user.role === 'Master' || user.isMaster === true); // Assuming one of these properties exists
+    return user && (user.role === 'Master' || user.isMaster === true);
   }
 
   private handleAuthentication(response: any): void {
@@ -85,7 +80,7 @@ export class AuthService {
     
     localStorage.setItem('userData', JSON.stringify(userData));
     this.currentUserSubject.next(userData);
-    this.autoLogout(response.data.expiresIn * 100);
+    this.autoLogout(response.data.expiresIn * 1000);
   }
 
   private loadStoredUser(): void {
