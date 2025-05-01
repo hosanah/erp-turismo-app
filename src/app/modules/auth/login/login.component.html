@@ -1,71 +1,63 @@
 <!-- login.component.html -->
-<div class="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-900 via-cyan-950 to-gray-950">
-  <p-card styleClass="shadow-none border-0">
-    <ng-template pTemplate="header">
-      <h3 class="text-xl font-semibold text-center text-gray-300">Login</h3>
-    </ng-template>
+<div class="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-900 via-cyan-950 to-gray-950 p-4">
+  <mat-card class="w-full max-w-md bg-gray-800/80 backdrop-blur-sm shadow-xl rounded-lg">
+    <mat-card-header class="justify-center pb-4">
+      <mat-card-title class="text-xl font-semibold text-center text-gray-200">Login</mat-card-title>
+    </mat-card-header>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
-      <div> 
-        <label for="email" class="block text-sm font-medium text-gray-300">Email</label>
-        <input
-          id="email"
-          type="email"
-          pInputText
-          formControlName="email"
-          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          placeholder="Digite seu email">
-        <small
-          *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
-          class="mt-1 text-xs text-red-600">
-          Email é obrigatório e deve ser válido
-        </small>
-      </div>
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
+        
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label class="text-gray-300">Email</mat-label>
+          <input matInput 
+                 type="email"
+                 formControlName="email"
+                 required
+                 placeholder="Digite seu email">
+          <mat-error *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+            Email é obrigatório e deve ser válido
+          </mat-error>
+        </mat-form-field>
 
-      <div> 
-        <label for="password" class="block text-sm font-medium text-gray-300">Senha</label>
-        <p-password
-          id="password"
-          formControlName="password"
-          [toggleMask]="true"
-          [feedback]="false"
-          styleClass="w-full mt-1" 
-          inputStyleClass="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
-          placeholder="Digite sua senha">
-        </p-password>
-        <small
-          *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
-          class="mt-1 text-xs text-red-600">
-          Senha é obrigatória
-        </small>
-      </div>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label class="text-gray-300">Senha</mat-label>
+          <input matInput 
+                 [type]="hidePassword ? 'password' : 'text'" 
+                 formControlName="password"
+                 required
+                 placeholder="Digite sua senha">
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword" type="button">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            Senha é obrigatória
+          </mat-error>
+        </mat-form-field>
 
-      <div class="flex items-center">
-        <p-checkbox
-          formControlName="rememberMe"
-          [binary]="true"
-          inputId="rememberMe"
-          styleClass="mr-2">
-        </p-checkbox>
-        <label for="rememberMe" class="text-sm text-gray-300">Lembrar-me</label>
-      </div>
+        <div class="flex items-center">
+          <mat-checkbox formControlName="rememberMe" color="primary" class="mr-2">
+            <span class="text-sm text-gray-300">Lembrar-me</span>
+          </mat-checkbox>
+        </div>
 
-      <div class="flex justify-center pt-2"> 
-        <p-button
-          type="submit"
-          label="Entrar"
-          icon="pi pi-sign-in"
-          [disabled]="loginForm.invalid || isLoading"
-          styleClass="p-button-primary"> 
-        </p-button>
-      </div>
-    </form>
+        <div class="flex justify-center pt-2"> 
+          <button mat-raised-button 
+                  color="primary" 
+                  type="submit"
+                  [disabled]="loginForm.invalid || isLoading">
+            <mat-icon *ngIf="!isLoading">login</mat-icon> <!-- Changed icon -->
+            <span *ngIf="!isLoading">Entrar</span>
+            <!-- Optional: Add a spinner for loading state -->
+            <mat-progress-spinner *ngIf="isLoading" diameter="24" mode="indeterminate" class="inline-block ml-2"></mat-progress-spinner>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
 
-    <ng-template pTemplate="footer">
-      <div class="text-center text-sm text-gray-500 pt-4">
-        <p>Não tem uma conta? Entre em contato com o administrador.</p>
-      </div>
-    </ng-template>
-  </p-card>
+    <mat-card-footer class="text-center text-sm text-gray-500 pt-6 pb-4">
+      <p>Não tem uma conta? Entre em contato com o administrador.</p>
+    </mat-card-footer>
+  </mat-card>
 </div>
 

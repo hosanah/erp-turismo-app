@@ -1,39 +1,47 @@
 // reports.module.ts
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core"; // Added schemas
+import { CommonModule } from "@angular/common";
+import { ReactiveFormsModule } from "@angular/forms";
 
-import { ReportsRoutingModule } from './reports-routing.module';
-import { ReportViewerComponent } from './report-viewer/report-viewer.component';
+import { ReportsRoutingModule } from "./reports-routing.module";
+import { ReportViewerComponent } from "./report-viewer/report-viewer.component";
 
-// PrimeNG Modules
-import { DropdownModule } from 'primeng/dropdown';
-import { CalendarModule } from 'primeng/calendar';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { ButtonModule } from 'primeng/button';
-import { TableModule } from 'primeng/table';
-import { ChartModule } from 'primeng/chart';
-import { TagModule } from 'primeng/tag';
-import { InputTextModule } from 'primeng/inputtext';
-import { ToastModule } from 'primeng/toast';
+// Added Angular Material Modules
+import { MatSelectModule } from "@angular/material/select"; // For Dropdown
+import { MatDatepickerModule } from "@angular/material/datepicker"; // For Calendar
+import { MatNativeDateModule } from "@angular/material/core"; // Needed for Datepicker
+import { MatInputModule } from "@angular/material/input"; // For InputNumber, InputText
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatButtonModule } from "@angular/material/button";
+import { MatTableModule } from "@angular/material/table"; // For Table
+import { MatChipsModule } from "@angular/material/chips"; // For Tag
+import { MatSnackBarModule } from "@angular/material/snack-bar"; // For Toast
+import { MatIconModule } from "@angular/material/icon";
+
+// Consider a charting library compatible with Angular Material (e.g., ngx-charts, Chart.js with ng2-charts)
+// For now, remove ChartModule import and handle chart component replacement separately
 
 @NgModule({
-  declarations: [
-    ReportViewerComponent
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     ReportsRoutingModule,
-    DropdownModule,
-    CalendarModule,
-    InputNumberModule,
-    ButtonModule,
-    TableModule,
-    ChartModule,
-    TagModule,
-    InputTextModule,
-    ToastModule
-  ]
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule, 
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatTableModule,
+    MatChipsModule,
+    MatSnackBarModule,
+    MatIconModule,
+  ],
+  providers: [
+    
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA], // Keep if needed
 })
-export class ReportsModule { }
+export class ReportsModule {}
+

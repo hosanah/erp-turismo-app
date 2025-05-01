@@ -1,25 +1,39 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd, ActivatedRoute, PRIMARY_OUTLET, RouterModule } from '@angular/router';
-import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { MenuItem } from 'primeng/api';
+// Removed: import { BreadcrumbModule } from 'primeng/breadcrumb';
+// Removed: import { MenuItem } from 'primeng/api';
 import { filter, distinctUntilChanged, map, startWith } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { MatToolbarModule } from '@angular/material/toolbar'; // Added
+import { MatIconModule } from '@angular/material/icon'; // Added
+import { MatButtonModule } from '@angular/material/button'; // Added for potential icon button
 
-interface BreadcrumbItem extends MenuItem {
-  route?: string;
+// Interface remains similar, but doesn't need to extend PrimeNG MenuItem
+interface BreadcrumbItem {
+  label?: string;
+  icon?: string; // Use string for Material Icon name
+  routerLink?: string;
+  // route?: string; // This property wasn't used, can be removed if not needed
 }
 
 @Component({
   selector: 'app-breadcrumb',
   standalone: true,
-  imports: [CommonModule, BreadcrumbModule, RouterModule],
+  imports: [
+    CommonModule, 
+    // Removed: BreadcrumbModule, 
+    RouterModule, 
+    MatToolbarModule, // Added
+    MatIconModule, // Added
+    MatButtonModule // Added
+  ],
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.scss']
 })
 export class BreadcrumbComponent implements OnInit, OnDestroy {
   items: BreadcrumbItem[] = [];
-  home: BreadcrumbItem = { icon: 'pi pi-home', routerLink: '/dashboard' }; // Adjust home route if needed
+  home: BreadcrumbItem = { icon: 'home', routerLink: '/dashboard' }; // Changed icon to Material name
   private routerSubscription: Subscription | undefined;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
@@ -68,6 +82,10 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
           label: label,
           routerLink: nextUrl
         };
+        // Add icon if defined in route data (optional)
+        if (child.snapshot.data['breadcrumbIcon']) {
+          breadcrumb.icon = child.snapshot.data['breadcrumbIcon'];
+        }
         breadcrumbs.push(breadcrumb);
       }
 

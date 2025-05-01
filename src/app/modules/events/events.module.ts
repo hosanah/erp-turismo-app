@@ -6,42 +6,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EventsRoutingModule } from './events-routing.module';
 import { EventListComponent } from './event-list/event-list.component';
 
-// PrimeNG Modules
-import { TableModule } from 'primeng/table';
-import { ToolbarModule } from 'primeng/toolbar';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { DialogModule } from 'primeng/dialog';
-import { CalendarModule as PrimeCalendarModule } from 'primeng/calendar'; // Alias
-import { InputTextarea } from 'primeng/inputtextarea'; // Corrected import name
-import { DropdownModule } from 'primeng/dropdown';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { TagModule } from 'primeng/tag';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { RippleModule } from 'primeng/ripple';
-import { ToastModule } from 'primeng/toast';
+
 
 @NgModule({
   declarations: [
-    EventListComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    EventsRoutingModule,
-    TableModule,
-    ToolbarModule,
-    ButtonModule,
-    InputTextModule,
-    DialogModule,
-    PrimeCalendarModule,
-    InputTextarea, // Corrected usage
-    DropdownModule,
-    MultiSelectModule,
-    TagModule,
-    ConfirmDialogModule,
-    RippleModule,
-    ToastModule
+    EventsRoutingModule
   ]
   // Providers for ConfirmationService and MessageService are usually in root
 })

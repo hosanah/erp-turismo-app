@@ -3,68 +3,61 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
-// PrimeNG Modules
-import { MenubarModule } from 'primeng/menubar';
-import { SidebarModule } from 'primeng/sidebar';
-import { ButtonModule } from 'primeng/button';
-import { MenuModule } from 'primeng/menu';
-import { AvatarModule } from 'primeng/avatar';
-import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { InputTextModule } from 'primeng/inputtext';
-import { ToolbarModule } from 'primeng/toolbar';
+// Removed PrimeNG Modules
 
-// Shared Components
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { UserMenuComponent } from './components/user-menu/user-menu.component';
-import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+// Added Angular Material Modules (Likely needed by shared components)
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; // For LoadingComponent
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list'; // Potentially for Sidebar/Menu
+
+// Shared Components (Keep non-standalone ones)
+// Removed UserMenuComponent as it's standalone
 import { LoadingComponent } from './components/loading/loading.component';
-import { MainLayoutComponent } from './components/main-layout/main-layout.component';
+// Removed MainLayoutComponent as it's standalone
 
+// Import Standalone components used within MainLayoutComponent (if needed elsewhere, otherwise remove)
+// These are likely only used by MainLayoutComponent, which imports them directly
+// import { NavbarComponent } from '../core/layout/navbar/navbar.component';
+// import { SidebarComponent } from '../core/layout/sidebar/sidebar.component';
+// import { BreadcrumbComponent } from '../core/layout/breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
-    NavbarComponent,
-    SidebarComponent,
-    UserMenuComponent,
-    BreadcrumbComponent,
+    // Removed standalone components: NavbarComponent, SidebarComponent, BreadcrumbComponent, UserMenuComponent
     LoadingComponent,
-    MainLayoutComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
-    // PrimeNG
-    MenubarModule,
-    SidebarModule,
-    ButtonModule,
-    MenuModule,
-    AvatarModule,
-    BreadcrumbModule,
-    ProgressSpinnerModule,
-    InputTextModule,
-    ToolbarModule
+    // Removed PrimeNG Modules
+    
+    // Added Angular Material Modules
+    MatProgressSpinnerModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatListModule,
+
+    // Removed Standalone components used by MainLayoutComponent
   ],
   exports: [
     // Components
-    NavbarComponent,
-    SidebarComponent,
-    UserMenuComponent,
-    BreadcrumbComponent,
+    // Removed UserMenuComponent as it's standalone
     LoadingComponent,
-    MainLayoutComponent,
-    // PrimeNG Modules (optional, if needed directly in other modules)
-    MenubarModule,
-    SidebarModule,
-    ButtonModule,
-    MenuModule,
-    AvatarModule,
-    BreadcrumbModule,
-    ProgressSpinnerModule,
-    InputTextModule,
-    ToolbarModule
+    // Removed MainLayoutComponent as it's standalone
+    
+    // Export Material Modules if needed by other modules importing SharedModule
+    MatProgressSpinnerModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatListModule
   ]
 })
 export class SharedModule { }

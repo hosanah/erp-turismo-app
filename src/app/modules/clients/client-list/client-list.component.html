@@ -1,116 +1,94 @@
 <!-- client-list.component.html -->
-<div class="animate-fade-in"> <!-- Added fade-in animation -->
+<div class="animate-fade-in p-4 md:p-6">
   <!-- Header -->
   <div class="flex items-center justify-between mb-6">
     <div>
-      <h1 class="text-2xl font-bold tracking-tight text-foreground">Clientes</h1>
-      <p class="text-sm text-muted-foreground">Gerencie seus clientes.</p>
+      <h1 class="text-2xl font-bold tracking-tight text-foreground dark:text-gray-100">Clientes</h1>
+      <p class="text-sm text-muted-foreground dark:text-gray-400">Gerencie seus clientes.</p>
     </div>
-    <button pButton pRipple label="Novo Cliente" icon="pi pi-plus" class="bg-primary hover:bg-primary/90 text-primary-foreground" (click)="openNewClientDialog()"></button>
+    <button mat-raised-button color="primary" (click)="openNewClientDialog()">
+      <mat-icon>add</mat-icon>
+      <span>Novo Cliente</span>
+    </button>
   </div>
 
   <!-- Toolbar/Filters -->
-  <p-toolbar styleClass="mb-4 rounded-lg border dark:border-gray-700 bg-card dark:bg-gray-800">
-    <ng-template pTemplate="left">
-      <!-- Placeholder for potential bulk actions -->
-    </ng-template>
+  <mat-toolbar class="mb-4 rounded-lg border dark:border-gray-700 bg-card dark:bg-gray-800 shadow-sm px-4 py-2 flex justify-end">
+    <mat-form-field appearance="outline" class="w-full sm:w-auto">
+      <mat-label>Pesquisar...</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Nome, email, telefone..." #input>
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </mat-toolbar>
 
-    <ng-template pTemplate="right">
-      <!-- Global Search -->
-      <span class="relative ml-auto">
-        <i class="pi pi-search absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground"></i>
-        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Pesquisar clientes..." class="pl-10 rounded-md border-input bg-background dark:bg-gray-700 focus:ring-ring focus:border-ring sm:text-sm" />
-      </span>
-    </ng-template>
-  </p-toolbar>
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="flex justify-center items-center p-4">
+    <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+  </div>
 
   <!-- Clients Table -->
-  <div class="rounded-lg border dark:border-gray-700 overflow-hidden">
-    <p-table
-      #dt
-      [value]="clients"
-      [rows]="10"
-      [paginator]="true"
-      [globalFilterFields]="['name', 'email', 'phone', 'document']"
-      [rowHover]="true"
-      dataKey="id"
-      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} clientes"
-      [showCurrentPageReport]="true"
-      [loading]="isLoading"
-      styleClass="p-datatable-sm"
-      selectionMode="multiple" [(selection)]="selectedClients"
-      responsiveLayout="scroll">
+  <div class="mat-elevation-z4 rounded-lg border dark:border-gray-700 overflow-hidden" [hidden]="isLoading">
+    <table mat-table [dataSource]="dataSource" matSort class="w-full">
 
-      <ng-template pTemplate="header">
-        <tr>
-          <th pSortableColumn="name" class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground">Nome <p-sortIcon field="name"></p-sortIcon></th>
-          <th pSortableColumn="email" class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground">Email <p-sortIcon field="email"></p-sortIcon></th>
-          <th pSortableColumn="phone" class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground">Telefone <p-sortIcon field="phone"></p-sortIcon></th>
-          <th pSortableColumn="document" class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground">Documento <p-sortIcon field="document"></p-sortIcon></th>
-          <th class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground">Ações</th>
-        </tr>
-      </ng-template>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-muted dark:bg-gray-700 text-muted-foreground dark:text-gray-300"> Nome </th>
+        <td mat-cell *matCellDef="let client" class="text-foreground dark:text-gray-200"> {{client.name}} </td>
+      </ng-container>
 
-      <ng-template pTemplate="body" let-client>
-        <tr class="hover:bg-muted/50 dark:hover:bg-gray-700/50">
-          <td class="border-b dark:border-gray-700 text-sm py-3 px-4">{{ client.name }}</td>
-          <td class="border-b dark:border-gray-700 text-sm py-3 px-4">{{ client.email }}</td>
-          <td class="border-b dark:border-gray-700 text-sm py-3 px-4">{{ client.phone }}</td>
-          <td class="border-b dark:border-gray-700 text-sm py-3 px-4">{{ client.document }}</td>
-          <td class="border-b dark:border-gray-700 text-sm py-3 px-4">
-            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-text mr-2" (click)="editClient(client)"></button>
-            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger" (click)="deleteClient(client)"></button>
-          </td>
-        </tr>
-      </ng-template>
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-muted dark:bg-gray-700 text-muted-foreground dark:text-gray-300"> Email </th>
+        <td mat-cell *matCellDef="let client" class="text-foreground dark:text-gray-200"> {{client.email}} </td>
+      </ng-container>
 
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td colspan="5" class="p-4 text-center text-muted-foreground">Nenhum cliente encontrado.</td> <!-- Adjusted colspan -->
-        </tr>
-      </ng-template>
-    </p-table>
+      <!-- Phone Column -->
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-muted dark:bg-gray-700 text-muted-foreground dark:text-gray-300"> Telefone </th>
+        <td mat-cell *matCellDef="let client" class="text-foreground dark:text-gray-200"> {{client.phone}} </td>
+      </ng-container>
+
+      <!-- Document Column -->
+      <ng-container matColumnDef="document">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-muted dark:bg-gray-700 text-muted-foreground dark:text-gray-300"> Documento </th>
+        <td mat-cell *matCellDef="let client" class="text-foreground dark:text-gray-200"> {{client.document}} </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="bg-muted dark:bg-gray-700 text-muted-foreground dark:text-gray-300"> Ações </th>
+        <td mat-cell *matCellDef="let client">
+          <button mat-icon-button color="primary" (click)="editClient(client)" aria-label="Editar cliente">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteClient(client)" aria-label="Excluir cliente">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="hover:bg-muted/50 dark:hover:bg-gray-700/50"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell p-4 text-center text-muted-foreground dark:text-gray-400" [attr.colspan]="displayedColumns.length">
+          Nenhum cliente encontrado correspondendo à pesquisa "{{input.value}}" ou nenhum cliente cadastrado.
+        </td>
+      </tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" 
+                   showFirstLastButtons 
+                   aria-label="Selecione a página de clientes"
+                   class="bg-card dark:bg-gray-800 text-foreground dark:text-gray-200">
+    </mat-paginator>
   </div>
 </div>
 
-<!-- Client Add/Edit Dialog -->
-<p-dialog
-  header="{{ clientDialogMode === 'add' ? 'Adicionar Cliente' : 'Editar Cliente' }}"
-  [(visible)]="displayClientDialog"
-  [modal]="true"
-  [style]="{width: '450px'}"
-  [draggable]="false"
-  [resizable]="false"
-  styleClass="rounded-lg shadow-xl bg-card dark:bg-gray-800">
-
-  <form [formGroup]="clientForm" (ngSubmit)="saveClient()" class="p-fluid p-4 space-y-4">
-    <div class="field">
-      <label for="name" class="block text-sm font-medium text-foreground mb-1">Nome</label>
-      <input id="name" type="text" pInputText formControlName="name" class="w-full" required autofocus>
-      <small class="p-error block mt-1" *ngIf="clientForm.get('name')?.invalid && clientForm.get('name')?.touched">Nome é obrigatório.</small>
-    </div>
-    <div class="field">
-      <label for="email" class="block text-sm font-medium text-foreground mb-1">Email</label>
-      <input id="email" type="email" pInputText formControlName="email" class="w-full" required>
-      <small class="p-error block mt-1" *ngIf="clientForm.get('email')?.invalid && clientForm.get('email')?.touched">Email inválido.</small>
-    </div>
-    <div class="field">
-      <label for="phone" class="block text-sm font-medium text-foreground mb-1">Telefone</label>
-      <p-inputMask id="phone" mask="(99) 99999-9999" formControlName="phone" placeholder="(99) 99999-9999" styleClass="w-full"></p-inputMask>
-    </div>
-    <div class="field">
-      <label for="document" class="block text-sm font-medium text-foreground mb-1">Documento (CPF/CNPJ)</label>
-      <input id="document" type="text" pInputText formControlName="document" class="w-full">
-    </div>
-    <!-- Add other fields as needed -->
-  </form>
-
-  <ng-template pTemplate="footer">
-    <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="displayClientDialog=false"></button>
-    <button pButton pRipple label="Salvar" icon="pi pi-check" class="bg-primary hover:bg-primary/90 text-primary-foreground" [disabled]="clientForm.invalid" (click)="saveClient()"></button>
-  </ng-template>
-</p-dialog>
-
-<!-- Confirmation Dialog -->
-<p-confirmDialog [style]="{width: '450px'}" styleClass="rounded-lg shadow-xl bg-card dark:bg-gray-800"></p-confirmDialog>
+<!-- 
+  Client Add/Edit Dialog and Confirmation Dialog are now handled by MatDialog 
+  opened from the component TypeScript. The p-dialog and p-confirmDialog 
+  elements have been removed from this template.
+-->
 

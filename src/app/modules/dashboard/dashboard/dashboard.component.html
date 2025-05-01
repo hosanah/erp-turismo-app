@@ -1,91 +1,87 @@
 <!-- dashboard.component.html -->
-<div class="animate-fade-in"> <!-- Added fade-in animation similar to layout-teste -->
-  <!-- Dashboard Header (Similar to layout-teste DashboardHeader) -->
+<div class="animate-fade-in p-4 md:p-6">
+  <!-- Dashboard Header -->
   <div class="mb-6">
-    <h1 class="text-2xl font-bold tracking-tight text-foreground">Dashboard</h1>
-    <p class="text-sm text-muted-foreground">Visão geral do seu negócio.</p>
+    <h1 class="text-2xl font-bold tracking-tight text-foreground dark:text-gray-100">Dashboard</h1>
+    <p class="text-sm text-muted-foreground dark:text-gray-400">Visão geral do seu negócio.</p>
   </div>
 
-  <!-- Stat Cards (Similar to layout-teste StatCards) -->
+  <!-- Stat Cards -->
   <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
     <!-- Card 1: Clientes Ativos -->
-    <p-card styleClass="shadow-sm rounded-lg border dark:border-gray-700">
-      <ng-template pTemplate="title">
-        <div class="flex items-center justify-between">
-          <span class="text-sm font-medium text-muted-foreground">Clientes Ativos</span>
-          <i class="pi pi-users text-muted-foreground"></i>
+    <mat-card class="shadow-sm rounded-lg border dark:border-gray-700 bg-card dark:bg-gray-800">
+      <mat-card-header class="pb-2">
+        <div class="flex items-center justify-between w-full">
+          <mat-card-title class="text-sm font-medium text-muted-foreground dark:text-gray-400">Clientes Ativos</mat-card-title>
+          <mat-icon class="text-muted-foreground dark:text-gray-400">people</mat-icon> <!-- Changed icon -->
         </div>
-      </ng-template>
-      <ng-template pTemplate="content">
-        <div class="text-2xl font-bold text-foreground">{{ activeClients }}</div>
-        <!-- <p class="text-xs text-muted-foreground">+5 desde o último mês</p> -->
-      </ng-template>
-    </p-card>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="text-2xl font-bold text-foreground dark:text-gray-100">{{ activeClients }}</div>
+        <!-- <p class="text-xs text-muted-foreground dark:text-gray-400">+5 desde o último mês</p> -->
+      </mat-card-content>
+    </mat-card>
 
     <!-- Card 2: Eventos Próximos -->
-    <p-card styleClass="shadow-sm rounded-lg border dark:border-gray-700">
-      <ng-template pTemplate="title">
-        <div class="flex items-center justify-between">
-          <span class="text-sm font-medium text-muted-foreground">Eventos Próximos</span>
-          <i class="pi pi-calendar text-muted-foreground"></i>
+    <mat-card class="shadow-sm rounded-lg border dark:border-gray-700 bg-card dark:bg-gray-800">
+      <mat-card-header class="pb-2">
+        <div class="flex items-center justify-between w-full">
+          <mat-card-title class="text-sm font-medium text-muted-foreground dark:text-gray-400">Eventos Próximos</mat-card-title>
+          <mat-icon class="text-muted-foreground dark:text-gray-400">calendar_today</mat-icon> <!-- Changed icon -->
         </div>
-      </ng-template>
-      <ng-template pTemplate="content">
-        <div class="text-2xl font-bold text-foreground">{{ upcomingEvents }}</div>
-        <!-- <p class="text-xs text-muted-foreground">+2 agendados esta semana</p> -->
-      </ng-template>
-    </p-card>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="text-2xl font-bold text-foreground dark:text-gray-100">{{ upcomingEvents }}</div>
+        <!-- <p class="text-xs text-muted-foreground dark:text-gray-400">+2 agendados esta semana</p> -->
+      </mat-card-content>
+    </mat-card>
 
     <!-- Card 3: Vendas (Mês) -->
-    <p-card styleClass="shadow-sm rounded-lg border dark:border-gray-700">
-      <ng-template pTemplate="title">
-        <div class="flex items-center justify-between">
-          <span class="text-sm font-medium text-muted-foreground">Vendas (Mês)</span>
-          <i class="pi pi-shopping-cart text-muted-foreground"></i>
+    <mat-card class="shadow-sm rounded-lg border dark:border-gray-700 bg-card dark:bg-gray-800">
+      <mat-card-header class="pb-2">
+        <div class="flex items-center justify-between w-full">
+          <mat-card-title class="text-sm font-medium text-muted-foreground dark:text-gray-400">Vendas (Mês)</mat-card-title>
+          <mat-icon class="text-muted-foreground dark:text-gray-400">shopping_cart</mat-icon> <!-- Kept icon -->
         </div>
-      </ng-template>
-      <ng-template pTemplate="content">
-        <div class="text-2xl font-bold text-foreground">{{ monthlySales | currency: 'BRL' }}</div>
-        <!-- <p class="text-xs text-muted-foreground">+12% em relação ao mês passado</p> -->
-      </ng-template>
-    </p-card>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="text-2xl font-bold text-foreground dark:text-gray-100">{{ monthlySales | currency: 'BRL' }}</div>
+      </mat-card-content>
+    </mat-card>
 
-    <!-- Card 4: Motoristas Disponíveis -->
-    <p-card styleClass="shadow-sm rounded-lg border dark:border-gray-700">
-      <ng-template pTemplate="title">
-        <div class="flex items-center justify-between">
-          <span class="text-sm font-medium text-muted-foreground">Motoristas Disponíveis</span>
-          <i class="pi pi-id-card text-muted-foreground"></i>
+    <mat-card class="shadow-sm rounded-lg border dark:border-gray-700 bg-card dark:bg-gray-800">
+      <mat-card-header class="pb-2">
+        <div class="flex items-center justify-between w-full">
+          <mat-card-title class="text-sm font-medium text-muted-foreground dark:text-gray-400">Motoristas Disponíveis</mat-card-title>
+          <mat-icon class="text-muted-foreground dark:text-gray-400">directions_car</mat-icon> <!-- Changed icon -->
         </div>
-      </ng-template>
-      <ng-template pTemplate="content">
-        <div class="text-2xl font-bold text-foreground">{{ availableDrivers }}</div>
-        <!-- <p class="text-xs text-muted-foreground">3 em rota no momento</p> -->
-      </ng-template>
-    </p-card>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="text-2xl font-bold text-foreground dark:text-gray-100">{{ availableDrivers }}</div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
-  <!-- Quick Actions Panel -->
-  <div>
-    <p-panel header="Ações Rápidas" styleClass="shadow-sm rounded-lg border dark:border-gray-700">
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-        <!-- Using Tailwind classes for button styling via PrimeNG Tailwind theme -->
-        <button pButton type="button" label="Novo Evento" icon="pi pi-plus" class="w-full bg-primary hover:bg-primary/90 text-primary-foreground" routerLink="/events/new"></button>
-        <button pButton type="button" label="Nova Venda" icon="pi pi-shopping-cart" class="w-full bg-esmeralda hover:bg-esmeralda-dark text-white" routerLink="/sales/new"></button> <!-- Example using custom color -->
-        <button pButton type="button" label="Ver Calendário" icon="pi pi-calendar" class="w-full bg-laranja hover:bg-laranja-dark text-gray-900" routerLink="/calendar"></button> <!-- Example using custom color -->
-      </div>
-    </p-panel>
-  </div>
-
-  <!-- Placeholder for other dashboard sections like charts or tables -->
-  <!-- <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-    <p-card header="Vendas Recentes" styleClass="shadow-sm rounded-lg border dark:border-gray-700">
-      Content for recent sales...
-    </p-card>
-    <p-card header="Próximos Eventos" styleClass="shadow-sm rounded-lg border dark:border-gray-700">
-      Content for upcoming events...
-    </p-card>
-  </div> -->
-
+  <mat-expansion-panel class="shadow-sm rounded-lg border dark:border-gray-700 bg-card dark:bg-gray-800 mb-6">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="text-base font-medium text-foreground dark:text-gray-200">
+        Ações Rápidas
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
+      <button mat-raised-button color="primary" class="w-full" routerLink="/events/new">
+        <mat-icon>add</mat-icon>
+        <span>Novo Evento</span>
+      </button>
+      <button mat-raised-button class="w-full bg-emerald-600 hover:bg-emerald-700 text-white" routerLink="/sales/new">
+        <mat-icon>shopping_cart</mat-icon>
+        <span>Nova Venda</span>
+      </button>
+      <button mat-raised-button class="w-full bg-orange-500 hover:bg-orange-600 text-gray-900" routerLink="/calendar">
+        <mat-icon>calendar_today</mat-icon>
+        <span>Ver Calendário</span>
+      </button>
+    </div>
+  </mat-expansion-panel>
 </div>
 

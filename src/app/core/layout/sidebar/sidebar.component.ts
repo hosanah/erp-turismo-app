@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core'; // Added inject
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router'; // Import Router
-import { ButtonModule } from 'primeng/button';
-import { PrimeIcons, MessageService } from 'primeng/api'; // Import MessageService
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+// Removed: import { ButtonModule } from 'primeng/button';
+// Removed: import { PrimeIcons, MessageService } from 'primeng/api';
+// Removed: import { ToastModule } from 'primeng/toast';
 import { AuthService } from '../../services/auth.service'; // Adjust path as needed
-import { ToastModule } from 'primeng/toast'; // Import ToastModule for MessageService
+import { MatListModule } from '@angular/material/list'; // Added
+import { MatIconModule } from '@angular/material/icon'; // Added
+import { MatButtonModule } from '@angular/material/button'; // Added
+import { MatSnackBar } from '@angular/material/snack-bar'; // Added for logout message
 
 @Component({
   selector: 'app-sidebar',
@@ -13,63 +17,64 @@ import { ToastModule } from 'primeng/toast'; // Import ToastModule for MessageSe
     CommonModule, 
     RouterLink, 
     RouterLinkActive, 
-    ButtonModule,
-    ToastModule // Add ToastModule
+    // Removed: ButtonModule,
+    // Removed: ToastModule 
+    MatListModule, // Added
+    MatIconModule, // Added
+    MatButtonModule // Added
   ],
-  providers: [MessageService], // Provide MessageService here or in Layout/App
+  // Removed: providers: [MessageService], 
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
   isCollapsed = false; // State for sidebar collapse
   menuItems: any[] = []; // Placeholder for menu items
-  primeIcons = PrimeIcons; // Make PrimeIcons accessible in the template
+  // Removed: primeIcons = PrimeIcons; 
 
-  // Inject AuthService, Router, MessageService
+  // Inject AuthService, Router, MatSnackBar
   constructor(
     public authService: AuthService, 
     private router: Router,
-    private messageService: MessageService
+    // Removed: private messageService: MessageService
+    private snackBar: MatSnackBar // Added
   ) { }
 
   ngOnInit(): void {
-    // Define menu items - these should match the reference or existing app structure
+    // Define menu items - using Material Icon names (strings)
     this.menuItems = [
-      { label: 'Dashboard', icon: this.primeIcons.HOME, link: '/dashboard' },
-      // Use actual routes from app.routes.ts or reference
-      { label: 'Calendário', icon: this.primeIcons.CALENDAR, link: '/calendar' }, 
-      { label: 'Clientes', icon: this.primeIcons.USERS, link: '/clients' },
-      { label: 'Eventos', icon: this.primeIcons.TICKET, link: '/events' },
-      { label: 'Vendas', icon: this.primeIcons.SHOPPING_CART, link: '/sales' },
-      // Changed HANDSHAKE to BRIEFCASE as HANDSHAKE might not exist
-      { label: 'Parceiros', icon: this.primeIcons.BRIEFCASE, link: '/partners' }, 
-      { label: 'Motoristas', icon: this.primeIcons.CAR, link: '/drivers' },
-      { label: 'Veículos', icon: this.primeIcons.TRUCK, link: '/vehicles' },
-      { label: 'Relatórios', icon: this.primeIcons.CHART_BAR, link: '/reports' },
+      { label: 'Dashboard', icon: 'home', link: '/dashboard' }, // Changed icon
+      { label: 'Calendário', icon: 'calendar_today', link: '/calendar' }, // Changed icon
+      { label: 'Clientes', icon: 'people', link: '/clients' }, // Changed icon
+      { label: 'Eventos', icon: 'event', link: '/events' }, // Changed icon (using 'event' as 'ticket' might not fit)
+      { label: 'Vendas', icon: 'shopping_cart', link: '/sales' }, // Kept icon
+      { label: 'Parceiros', icon: 'business_center', link: '/partners' }, // Changed icon (briefcase)
+      { label: 'Motoristas', icon: 'directions_car', link: '/drivers' }, // Changed icon
+      { label: 'Veículos', icon: 'local_shipping', link: '/vehicles' }, // Changed icon (truck)
+      { label: 'Relatórios', icon: 'bar_chart', link: '/reports' }, // Changed icon
       // Add other main menu items here based on reference or app structure
-      // Example from reference site (adjust icons/links as needed):
+      // Example Material Icons:
       // { separator: true, label: 'CONFIGURAÇÕES' }, 
-      // { label: 'API Keys', icon: this.primeIcons.KEY, link: '/api-keys' },
-      // { label: 'API Docs', icon: this.primeIcons.FILE, link: '/api-docs' },
-      // { label: 'Segurança', icon: this.primeIcons.LOCK, link: '/seguranca' },
-      // { label: 'Suporte', icon: this.primeIcons.QUESTION_CIRCLE, link: '/suporte' },
-      // { label: 'Configurações', icon: this.primeIcons.COG, link: '/configuracoes' },
+      // { label: 'API Keys', icon: 'vpn_key', link: '/api-keys' },
+      // { label: 'API Docs', icon: 'description', link: '/api-docs' },
+      // { label: 'Segurança', icon: 'security', link: '/seguranca' },
+      // { label: 'Suporte', icon: 'help_outline', link: '/suporte' },
+      // { label: 'Configurações', icon: 'settings', link: '/configuracoes' },
     ];
-    // Add Admin link conditionally if needed, similar to original AppComponent
-    // if (this.authService.isMasterUser()) { ... }
   }
 
   toggleCollapse(): void {
     this.isCollapsed = !this.isCollapsed;
   }
 
-  // Implement logout function
+  // Implement logout function using MatSnackBar
   logout(): void {
     this.authService.logout();
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Logout',
-      detail: 'Você foi desconectado com sucesso'
+    // Replaced: this.messageService.add({...});
+    this.snackBar.open('Você foi desconectado com sucesso', 'Fechar', { // Added
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top'
     });
     this.router.navigate(['/login']);
   }

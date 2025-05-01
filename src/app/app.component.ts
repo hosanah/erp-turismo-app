@@ -1,12 +1,13 @@
 import { Component, effect, HostBinding, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+// Removed: import { ToastModule } from 'primeng/toast';
+// Removed: import { MessageService } from 'primeng/api';
 import { AuthService } from './core/services/auth.service';
 import { Router } from '@angular/router';
 import { SharedModule } from './shared/shared.module'; 
 import { ThemeService } from './core/services/theme.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'; // Added
 
 @Component({
   selector: 'app-root',
@@ -14,10 +15,11 @@ import { ThemeService } from './core/services/theme.service';
   imports: [
     CommonModule,
     RouterOutlet,
-    ToastModule,
+    // Removed: ToastModule,
     SharedModule, 
+    MatSnackBarModule // Added
   ],
-  providers: [MessageService], 
+  // Removed: providers: [MessageService], 
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -28,7 +30,8 @@ export class AppComponent implements OnInit {
   constructor(
     public authService: AuthService, 
     private router: Router,
-    private messageService: MessageService
+    // Removed: private messageService: MessageService
+    private snackBar: MatSnackBar // Added
   ) {}
 
   ngOnInit() {
@@ -39,10 +42,11 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.authService.logout();
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Logout',
-      detail: 'Você foi desconectado com sucesso'
+    // Replaced: this.messageService.add({...});
+    this.snackBar.open('Você foi desconectado com sucesso', 'Fechar', { // Added
+      duration: 3000, // Example duration
+      horizontalPosition: 'center', // Example position
+      verticalPosition: 'top' // Example position
     });
     this.router.navigate(['/login']);
   }

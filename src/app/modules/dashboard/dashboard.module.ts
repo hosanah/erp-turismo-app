@@ -6,11 +6,12 @@ import { RouterLink } from '@angular/router';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
-// PrimeNG Modules
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
-import { PanelModule } from 'primeng/panel';
-import { RippleModule } from 'primeng/ripple';
+// Added Angular Material Modules
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatRippleModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon'; 
 
 @NgModule({
   declarations: [
@@ -20,11 +21,13 @@ import { RippleModule } from 'primeng/ripple';
     CommonModule,
     RouterLink,
     DashboardRoutingModule,
-    CardModule,
-    ButtonModule,
-    PanelModule,
-    RippleModule,
-    CurrencyPipe // Import CurrencyPipe here if using standalone, or provide it if needed globally
+    MatCardModule,
+    MatButtonModule,
+    MatExpansionModule,
+    MatRippleModule,
+    MatIconModule,
+    CurrencyPipe 
   ]
 })
 export class DashboardModule { }
+

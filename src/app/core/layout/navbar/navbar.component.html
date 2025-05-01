@@ -1,41 +1,56 @@
-<nav class="bg-white shadow-md px-4 flex items-center justify-between h-16 flex-shrink-0 z-10 relative">
+<mat-toolbar class="bg-card dark:bg-gray-800 shadow-md px-4 h-16 flex-shrink-0 z-10 relative">
   <!-- Left Side: System Name or Hamburger (if sidebar is toggleable from here) -->
   <div class="flex items-center">
-    <!-- If sidebar toggle button is needed here, add it -->
-    <!-- <button pButton type="button" icon="pi pi-bars" class="p-button-text mr-2 lg:hidden"></button> -->
-    <span class="text-xl font-semibold text-gray-800 hidden sm:block">{{ systemName }}</span>
+    <!-- Sidebar toggle button (if needed) would use mat-icon-button -->
+    <!-- <button mat-icon-button class="mr-2 lg:hidden">
+      <mat-icon>menu</mat-icon>
+    </button> -->
+    <span class="text-xl font-semibold text-foreground dark:text-gray-200 hidden sm:block">{{ systemName }}</span>
   </div>
 
-  <!-- Right Side: Search, Notifications, User Menu -->
-  <div class="flex items-center space-x-3 sm:space-x-4">
-    <!-- Optional Search Bar (based on reference) -->
+  <span class="flex-auto"></span> <!-- Spacer -->
+
+  <!-- Right Side: Search, Theme Toggle, Notifications, User Menu -->
+  <div class="flex items-center space-x-2 sm:space-x-3">
+    <!-- Optional Search Bar -->
     <div class="relative hidden md:block">
-      <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
-        <i class="pi pi-search"></i>
+      <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-muted-foreground">
+        <mat-icon>search</mat-icon> <!-- Replaced pi pi-search -->
       </span>
       <input type="text" 
              placeholder="Buscar..." 
-             class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out text-sm">
+             class="pl-10 pr-4 py-2 border border-input dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-150 ease-in-out text-sm bg-background dark:bg-gray-700 text-foreground dark:text-gray-200">
     </div>
+
+    <!-- Theme Toggle Button -->
+    <button mat-icon-button (click)="toggleTheme()" aria-label="Toggle dark mode">
+      <mat-icon>{{ isDarkMode() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+    </button>
     
-    <!-- Optional Notification Icon (based on reference) -->
-    <button pButton type="button" 
-            icon="pi pi-bell" 
-            class="p-button-rounded p-button-text text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 relative">
+    <!-- Optional Notification Icon -->
+    <button mat-icon-button 
+            aria-label="Notifications" 
+            class="text-muted-foreground hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none relative">
+            <mat-icon>notifications</mat-icon> <!-- Replaced pi pi-bell -->
             <!-- Optional badge -->
-            <!-- <span class="absolute top-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-red-500"></span> -->
+            <!-- <span class="absolute top-1 right-1 block h-2 w-2 rounded-full ring-2 ring-card dark:ring-gray-800 bg-red-500"></span> -->
     </button>
 
     <!-- User Menu -->
-    <div class="relative">
-      <button pButton type="button" 
-              icon="pi pi-user" 
-              (click)="menu.toggle($event)" 
-              class="p-button-rounded p-button-text text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="User menu">
+      <mat-icon>person</mat-icon> <!-- Replaced pi pi-user -->
+    </button>
+    <mat-menu #userMenu="matMenu" xPosition="before">
+      <button mat-menu-item (click)="navigateToProfile()">
+        <mat-icon>account_circle</mat-icon> <!-- Replaced pi pi-user -->
+        <span>Perfil</span>
       </button>
-      <p-menu #menu [model]="userMenuItems" [popup]="true" appendTo="body"></p-menu> 
-      <!-- Added appendTo="body" for better positioning -->
-    </div>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon> <!-- Replaced pi pi-sign-out -->
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+
   </div>
-</nav>
+</mat-toolbar>
 

@@ -1,45 +1,56 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MenuItem } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { MenuModule } from 'primeng/menu'; // Using PrimeNG Menu for dropdown
-import { Router } from '@angular/router';
+// Removed: import { MenuItem } from 'primeng/api';
+// Removed: import { ButtonModule } from 'primeng/button';
+// Removed: import { MenuModule } from 'primeng/menu'; 
+import { Router, RouterModule } from '@angular/router'; // Added RouterModule
 import { AuthService } from '../../services/auth.service'; // Adjust path as needed
+import { MatButtonModule } from '@angular/material/button'; // Added
+import { MatMenuModule } from '@angular/material/menu'; // Added
+import { MatIconModule } from '@angular/material/icon'; // Added
+import { MatToolbarModule } from '@angular/material/toolbar'; // Added for structure
+import { ThemeService } from '../../services/theme.service'; // Added for theme toggle
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, ButtonModule, MenuModule],
+  imports: [
+    CommonModule, 
+    RouterModule, // Added
+    // Removed: ButtonModule, 
+    // Removed: MenuModule,
+    MatButtonModule, // Added
+    MatMenuModule, // Added
+    MatIconModule, // Added
+    MatToolbarModule // Added
+  ],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  userMenuItems: MenuItem[] = [];
+  // Removed: userMenuItems: MenuItem[] = []; - Menu items will be in the template
   systemName = 'ERP Turismo'; // Or fetch dynamically if needed
+  private themeService = inject(ThemeService);
+  isDarkMode = this.themeService.isDarkMode;
 
   constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.userMenuItems = [
-      {
-        label: 'Perfil',
-        icon: 'pi pi-user',
-        command: () => {
-          // Navigate to profile page - adjust route as needed
-          this.router.navigate(['/profile']); 
-        }
-      },
-      {
-        label: 'Logout',
-        icon: 'pi pi-sign-out',
-        command: () => {
-          // Reuse logout logic - ideally move to AuthService or LayoutService
-          this.authService.logout();
-          // Optionally add message service notification here
-          this.router.navigate(['/login']);
-        }
-      }
-    ];
+    // Menu items logic moved to methods called from template
+  }
+
+  navigateToProfile(): void {
+    this.router.navigate(['/profile']); 
+  }
+
+  logout(): void {
+    this.authService.logout();
+    // Optionally add snackbar notification here (using MatSnackBar injected elsewhere or via a service)
+    this.router.navigate(['/login']);
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggleColorTheme();
   }
 }
 

@@ -1,8 +1,10 @@
 <div class="min-h-screen flex w-full bg-slate-200 dark:bg-slate-700 text-foreground">
-  <app-sidebar [(mobileSidebarVisible)]="mobileSidebarVisible"></app-sidebar>
+  <!-- Removed [(mobileSidebarVisible)] binding -->
+  <app-sidebar></app-sidebar>
 
-  <div class="flex flex-1 flex-col md:ml-64  bg-slate-200 dark:bg-slate-700"> 
-    <app-navbar (sidebarToggle)="toggleSidebar()"></app-navbar>
+  <div class="flex flex-1 flex-col md:ml-64 bg-slate-200 dark:bg-slate-700"> 
+    <!-- Removed (sidebarToggle) output binding -->
+    <app-navbar></app-navbar>
 
     <main class="flex-1 overflow-y-auto p-4 md:p-6">
       <app-breadcrumb></app-breadcrumb>
@@ -11,6 +13,7 @@
     </main>
   </div>
 
+  <!-- Keep app-loading if needed -->
   <app-loading [visible]="isLoading"></app-loading>
 </div>
 

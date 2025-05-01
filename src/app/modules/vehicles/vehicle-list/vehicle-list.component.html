@@ -1,143 +1,126 @@
 <!-- vehicle-list.component.html -->
-<div class="animate-fade-in">
+<div class="animate-fade-in p-4 md:p-6">
   <!-- Header -->
   <div class="flex items-center justify-between mb-6">
     <div>
-      <h1 class="text-2xl font-bold tracking-tight text-foreground">Veículos</h1>
-      <p class="text-sm text-muted-foreground">Gerencie sua frota de veículos.</p>
+      <h1 class="text-2xl font-bold tracking-tight text-foreground dark:text-gray-100">Veículos</h1>
+      <p class="text-sm text-muted-foreground dark:text-gray-400">Gerencie sua frota de veículos.</p>
     </div>
-    <button pButton pRipple label="Novo Veículo" icon="pi pi-plus" class="bg-primary hover:bg-primary/90 text-primary-foreground" (click)="openNewVehicleDialog()"></button>
+    <!-- Replaced pButton with mat-flat-button and Material Icon -->
+    <button mat-flat-button color="primary" (click)="openNewVehicleDialog()">
+      <mat-icon>add</mat-icon>
+      <span>Novo Veículo</span>
+    </button>
   </div>
 
   <!-- Toolbar/Filters -->
-  <p-toolbar styleClass="mb-4 rounded-lg border dark:border-gray-700 bg-card dark:bg-gray-800">
-    <ng-template pTemplate="left">
-    </ng-template>
-
-    <ng-template pTemplate="right">
-      <!-- Global Search -->
-      <span class="relative ml-auto">
-        <i class="pi pi-search absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground"></i>
-        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Pesquisar veículos..." class="pl-10 rounded-md border-input bg-background dark:bg-gray-700 focus:ring-ring focus:border-ring sm:text-sm" />
-      </span>
-    </ng-template>
-  </p-toolbar>
+  <!-- Replaced p-toolbar with mat-toolbar and standard div/input for search -->
+  <mat-toolbar class="mb-4 rounded-lg border dark:border-gray-700 bg-card dark:bg-gray-800 p-2 flex justify-end">
+    <mat-form-field appearance="outline" class="w-full sm:w-auto">
+      <mat-label>Pesquisar veículos...</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ABC-1234">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </mat-toolbar>
 
   <!-- Vehicles Table -->
-  <div class="rounded-lg border dark:border-gray-700 overflow-hidden">
-    <p-table
-      #dt
-      [value]="vehicles"
-      [rows]="10"
-      [paginator]="true"
-      [globalFilterFields]="['plate', 'model', 'brand', 'year', 'capacity', 'status']"
-      [rowHover]="true"
-      dataKey="id"
-      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} veículos"
-      [showCurrentPageReport]="true"
-      [loading]="isLoading"
-      styleClass="p-datatable-sm"
-      responsiveLayout="scroll">
+  <!-- Replaced p-table with mat-table -->
+  <div class="rounded-lg border dark:border-gray-700 overflow-hidden mat-elevation-z2">
+    <div class="relative overflow-x-auto">
+      <table mat-table [dataSource]="dataSource" matSort class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
 
-      <ng-template pTemplate="header">
-        <tr>
-          <th pSortableColumn="plate" class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground">Placa <p-sortIcon field="plate"></p-sortIcon></th>
-          <th pSortableColumn="model" class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground">Modelo <p-sortIcon field="model"></p-sortIcon></th>
-          <th pSortableColumn="brand" class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground">Marca <p-sortIcon field="brand"></p-sortIcon></th>
-          <th pSortableColumn="year" class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground">Ano <p-sortIcon field="year"></p-sortIcon></th>
-          <th pSortableColumn="capacity" class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground">Capacidade <p-sortIcon field="capacity"></p-sortIcon></th>
-          <th pSortableColumn="status" class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground">Status <p-sortIcon field="status"></p-sortIcon></th>
-          <th class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground">Ações</th>
-        </tr>
-      </ng-template>
+        <!-- Plate Column -->
+        <ng-container matColumnDef="plate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground dark:text-gray-300 px-4 py-3"> Placa </th>
+          <td mat-cell *matCellDef="let vehicle" class="border-b dark:border-gray-700 text-sm py-3 px-4 font-mono dark:text-gray-200"> {{vehicle.plate}} </td>
+        </ng-container>
 
-      <ng-template pTemplate="body" let-vehicle>
-        <tr class="hover:bg-muted/50 dark:hover:bg-gray-700/50">
-          <td class="border-b dark:border-gray-700 text-sm py-3 px-4 font-mono">{{ vehicle.plate }}</td>
-          <td class="border-b dark:border-gray-700 text-sm py-3 px-4">{{ vehicle.model }}</td>
-          <td class="border-b dark:border-gray-700 text-sm py-3 px-4">{{ vehicle.brand }}</td>
-          <td class="border-b dark:border-gray-700 text-sm py-3 px-4">{{ vehicle.year }}</td>
-          <td class="border-b dark:border-gray-700 text-sm py-3 px-4">{{ vehicle.capacity }}</td>
-          <td class="border-b dark:border-gray-700 text-sm py-3 px-4">
-            <p-tag [value]="vehicle.status" [severity]="getStatusSeverity(vehicle.status)" styleClass="text-xs"></p-tag>
+        <!-- Brand Column -->
+        <ng-container matColumnDef="brand">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground dark:text-gray-300 px-4 py-3"> Marca </th>
+          <td mat-cell *matCellDef="let vehicle" class="border-b dark:border-gray-700 text-sm py-3 px-4 dark:text-gray-200"> {{vehicle.brand}} </td>
+        </ng-container>
+
+        <!-- Model Column -->
+        <ng-container matColumnDef="model">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground dark:text-gray-300 px-4 py-3"> Modelo </th>
+          <td mat-cell *matCellDef="let vehicle" class="border-b dark:border-gray-700 text-sm py-3 px-4 dark:text-gray-200"> {{vehicle.model}} </td>
+        </ng-container>
+
+        <!-- Year Column -->
+        <ng-container matColumnDef="year">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground dark:text-gray-300 px-4 py-3"> Ano </th>
+          <td mat-cell *matCellDef="let vehicle" class="border-b dark:border-gray-700 text-sm py-3 px-4 dark:text-gray-200"> {{vehicle.year}} </td>
+        </ng-container>
+
+        <!-- Capacity Column -->
+        <ng-container matColumnDef="capacity">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground dark:text-gray-300 px-4 py-3"> Capacidade </th>
+          <td mat-cell *matCellDef="let vehicle" class="border-b dark:border-gray-700 text-sm py-3 px-4 dark:text-gray-200"> {{vehicle.capacity}} </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground dark:text-gray-300 px-4 py-3"> Status </th>
+          <td mat-cell *matCellDef="let vehicle" class="border-b dark:border-gray-700 text-sm py-3 px-4">
+            <!-- Replaced p-tag with mat-chip and ngClass for styling -->
+            <mat-chip-option [selectable]="false" [disabled]="true"
+                   [ngClass]="{
+                     'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300': vehicle.status === 'Disponível',
+                     'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300': vehicle.status === 'Em Uso',
+                     'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300': vehicle.status === 'Em Manutenção',
+                     'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300': vehicle.status === 'Indisponível'
+                   }"
+                   class="text-xs px-2 py-1 rounded-full">
+              {{vehicle.status}}
+            </mat-chip-option>
           </td>
-          <td class="border-b dark:border-gray-700 text-sm py-3 px-4">
-            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-text mr-2" (click)="editVehicle(vehicle)"></button>
-            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger" (click)="deleteVehicle(vehicle)"></button>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="bg-muted dark:bg-gray-700 text-left text-sm font-medium text-muted-foreground dark:text-gray-300 px-4 py-3"> Ações </th>
+          <td mat-cell *matCellDef="let vehicle" class="border-b dark:border-gray-700 text-sm py-3 px-4">
+            <!-- Replaced pButton with mat-icon-button -->
+            <button mat-icon-button color="primary" aria-label="Editar veículo" (click)="editVehicle(vehicle)" class="mr-1">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" aria-label="Excluir veículo" (click)="deleteVehicle(vehicle)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="hover:bg-muted/50 dark:hover:bg-gray-700/50"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell p-4 text-center text-muted-foreground dark:text-gray-400" [attr.colspan]="displayedColumns.length">
+            Nenhum veículo encontrado.
           </td>
         </tr>
-      </ng-template>
+      </table>
+    </div>
 
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td colspan="7" class="p-4 text-center text-muted-foreground">Nenhum veículo encontrado.</td>
-        </tr>
-      </ng-template>
-    </p-table>
+    <!-- Replaced p-paginator with mat-paginator -->
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                   aria-label="Selecione a página de veículos"
+                   class="bg-card dark:bg-gray-800 dark:text-gray-300">
+    </mat-paginator>
+
+    <!-- Loading Indicator -->
+    <div *ngIf="isLoading" class="absolute inset-0 bg-white/50 dark:bg-gray-900/50 flex items-center justify-center">
+      <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+    </div>
   </div>
 
+</div>
 
-<!-- Vehicle Add/Edit Dialog -->
-<p-dialog
-  header="{{ vehicleDialogMode === 'add' ? 'Adicionar Veículo' : 'Editar Veículo' }}"
-  [(visible)]="displayVehicleDialog"
-  [modal]="true"
-  [style]="{width: '500px'}"
-  [draggable]="false"
-  [resizable]="false"
-  styleClass="rounded-lg shadow-xl bg-card dark:bg-gray-800">
-
-  <form [formGroup]="vehicleForm" (ngSubmit)="saveVehicle()" class="p-fluid p-4 space-y-4">
-    <div class="field">
-      <label for="plate" class="block text-sm font-medium text-foreground mb-1">Placa</label>
-      <input id="plate" type="text" pInputText formControlName="plate" class="w-full" required autofocus>
-      <small class="p-error block mt-1" *ngIf="vehicleForm.get('plate')?.invalid && vehicleForm.get('plate')?.touched">Placa é obrigatória.</small>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="field">
-        <label for="model" class="block text-sm font-medium text-foreground mb-1">Modelo</label>
-        <input id="model" type="text" pInputText formControlName="model" class="w-full" required>
-        <small class="p-error block mt-1" *ngIf="vehicleForm.get('model')?.invalid && vehicleForm.get('model')?.touched">Modelo é obrigatório.</small>
-      </div>
-      <div class="field">
-        <label for="brand" class="block text-sm font-medium text-foreground mb-1">Marca</label>
-        <input id="brand" type="text" pInputText formControlName="brand" class="w-full" required>
-        <small class="p-error block mt-1" *ngIf="vehicleForm.get('brand')?.invalid && vehicleForm.get('brand')?.touched">Marca é obrigatória.</small>
-      </div>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="field">
-        <label for="year" class="block text-sm font-medium text-foreground mb-1">Ano</label>
-        <p-inputNumber id="year" formControlName="year" [useGrouping]="false" [min]="1990" [max]="currentYear" styleClass="w-full" inputStyleClass="w-full" required></p-inputNumber>
-        <small class="p-error block mt-1" *ngIf="vehicleForm.get('year')?.invalid && vehicleForm.get('year')?.touched">Ano é obrigatório.</small>
-      </div>
-      <div class="field">
-        <label for="capacity" class="block text-sm font-medium text-foreground mb-1">Capacidade</label>
-        <p-inputNumber id="capacity" formControlName="capacity" [min]="1" [max]="100" styleClass="w-full" inputStyleClass="w-full" required></p-inputNumber>
-        <small class="p-error block mt-1" *ngIf="vehicleForm.get('capacity')?.invalid && vehicleForm.get('capacity')?.touched">Capacidade é obrigatória.</small>
-      </div>
-    </div>
-
-    <div class="field">
-      <label for="status" class="block text-sm font-medium text-foreground mb-1">Status</label>
-      <p-dropdown id="status" formControlName="status" [options]="vehicleStatuses" placeholder="Selecione o status" optionLabel="label" optionValue="value" styleClass="w-full" required></p-dropdown>
-      <small class="p-error block mt-1" *ngIf="vehicleForm.get('status')?.invalid && vehicleForm.get('status')?.touched">Status é obrigatório.</small>
-    </div>
-
-    <div class="field">
-      <label for="notes" class="block text-sm font-medium text-foreground mb-1">Observações</label>
-      <textarea id="notes" pInputTextarea formControlName="notes" rows="3" class="w-full"></textarea>
-    </div>
-  </form>
-
-  <ng-template pTemplate="footer">
-    <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="displayVehicleDialog=false"></button>
-    <button pButton pRipple label="Salvar" icon="pi pi-check" class="bg-primary hover:bg-primary/90 text-primary-foreground" [disabled]="vehicleForm.invalid" (click)="saveVehicle()"></button>
-  </ng-template>
-</p-dialog>
-
-<!-- Confirmation Dialog - Added closing tag -->
-<p-confirmDialog [style]="{width: '450px'}" styleClass="rounded-lg shadow-xl bg-card dark:bg-gray-800"></p-confirmDialog>
+<!-- 
+  Removed PrimeNG Dialog (p-dialog) and Confirmation Dialog (p-confirmDialog).
+  These should be replaced by separate Angular Material Dialog components 
+  (e.g., VehicleDialogComponent, ConfirmDialogComponent) as noted in the component's TS file.
+  The form logic previously inside p-dialog will move to VehicleDialogComponent.
+-->
 

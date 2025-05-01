@@ -1,14 +1,18 @@
 // calendar.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core'; // Added inject
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { MessageService } from 'primeng/api';
+// Removed: import { MessageService } from 'primeng/api';
+import { MatSnackBar } from '@angular/material/snack-bar'; // Added
+import { MatDialog } from '@angular/material/dialog'; // Added for dialog later
 
 // Placeholder service - replace with actual EventService
 import { EventService } from '../../../core/services/event.service'; 
+
+// TODO: Create a separate component for the event dialog content (e.g., EventDialogComponent)
 
 @Component({
   selector: 'app-calendar',
@@ -19,7 +23,7 @@ export class CalendarComponent implements OnInit {
 
   events: any[] = []; // Events for FullCalendar
   calendarOptions!: CalendarOptions;
-  displayEventDialog: boolean = false;
+  // Removed: displayEventDialog: boolean = false;
   eventForm!: FormGroup;
   eventDialogMode: 'add' | 'edit' = 'add';
   selectedEventId: string | null = null;
@@ -32,7 +36,9 @@ export class CalendarComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private messageService: MessageService,
+    // Removed: private messageService: MessageService,
+    private snackBar: MatSnackBar, // Added
+    private dialog: MatDialog, // Added
     // private eventService: EventService // Inject actual service later
   ) { }
 
@@ -65,6 +71,7 @@ export class CalendarComponent implements OnInit {
       select: this.handleDateSelect.bind(this),
       eventClick: this.handleEventClick.bind(this),
       events: this.events
+      // TODO: Add eventDrop and eventResize handlers if needed
     };
   }
 
@@ -89,6 +96,7 @@ export class CalendarComponent implements OnInit {
     //     end: event.endDate,
     //     // Add other properties like color based on type, etc.
     //   }));
+    //   this.calendarOptions = { ...this.calendarOptions, events: this.events }; // Update calendar events
     // });
 
     // Example data:
@@ -99,16 +107,20 @@ export class CalendarComponent implements OnInit {
         title: 'Evento Exemplo 1 (Coletivo)',
         start: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 0),
         end: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0),
-        color: '#FF9800' // Example color for Coletivo
+        color: '#FF9800', // Example color for Coletivo
+        extendedProps: { type: 'Coletivo', description: 'Descrição do evento coletivo' }
       },
       {
         id: '2',
         title: 'Evento Exemplo 2 (Particular)',
         start: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 14, 0),
         end: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 16, 30),
-        color: '#2196F3' // Example color for Particular
+        color: '#2196F3', // Example color for Particular
+        extendedProps: { type: 'Particular', description: 'Descrição do evento particular' }
       }
     ];
+    // Update calendar events after loading
+    this.calendarOptions = { ...this.calendarOptions, events: this.events };
   }
 
   handleDateSelect(selectInfo: any): void {
@@ -119,7 +131,8 @@ export class CalendarComponent implements OnInit {
       end: selectInfo.end,
       type: 'Particular' // Reset to default
     });
-    this.displayEventDialog = true;
+    // Removed: this.displayEventDialog = true;
+    this.openEventDialog(); // Added
   }
 
   handleEventClick(clickInfo: any): void {
@@ -138,15 +151,42 @@ export class CalendarComponent implements OnInit {
         type: clickedEvent.extendedProps?.type || 'Particular'
         // Patch other fields
       });
-      this.displayEventDialog = true;
+      // Removed: this.displayEventDialog = true;
+      this.openEventDialog(); // Added
     } else {
-      this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Evento não encontrado' });
+      // Replaced: this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Evento não encontrado' });
+      this.snackBar.open('Evento não encontrado', 'Erro', { duration: 3000 });
     }
   }
 
+  openEventDialog(): void {
+    // Placeholder: This will open the MatDialog with the form
+    // const dialogRef = this.dialog.open(EventDialogComponent, {
+    //   width: '500px',
+    //   data: { 
+    //     form: this.eventForm, 
+    //     mode: this.eventDialogMode, 
+    //     eventTypes: this.eventTypes 
+    //     // Pass other needed data like available drivers/vehicles
+    //   }
+    // });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result === 'save') {
+    //     this.saveEvent();
+    //   }
+    // });
+    console.log('Placeholder: Open MatDialog here with eventForm data.');
+    // For now, just log and show a snackbar to indicate action
+    this.snackBar.open(`Placeholder: Abrindo diálogo para ${this.eventDialogMode === 'add' ? 'adicionar' : 'editar'} evento.`, 'OK', { duration: 2000 });
+    // We will implement the actual dialog component and logic later.
+  }
+
   saveEvent(): void {
+    // This method will likely be called from the dialog component after it closes
     if (this.eventForm.invalid) {
-      this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: 'Preencha todos os campos obrigatórios' });
+      // Replaced: this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: 'Preencha todos os campos obrigatórios' });
+      this.snackBar.open('Preencha todos os campos obrigatórios', 'Atenção', { duration: 3000 });
       return;
     }
 
@@ -168,14 +208,20 @@ export class CalendarComponent implements OnInit {
       // Placeholder: Call eventService.addEvent(eventData)
       // On success:
       this.events = [...this.events, calendarEvent];
-      this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Evento adicionado' });
+      // Replaced: this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Evento adicionado' });
+      this.snackBar.open('Evento adicionado com sucesso', 'Sucesso', { duration: 3000 });
     } else {
       // Placeholder: Call eventService.updateEvent(this.selectedEventId, eventData)
       // On success:
       this.events = this.events.map(e => e.id === this.selectedEventId ? calendarEvent : e);
-      this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Evento atualizado' });
+      // Replaced: this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Evento atualizado' });
+      this.snackBar.open('Evento atualizado com sucesso', 'Sucesso', { duration: 3000 });
     }
+    
+    // Update calendar events after saving
+    this.calendarOptions = { ...this.calendarOptions, events: this.events };
 
-    this.displayEventDialog = false;
+    // Removed: this.displayEventDialog = false; // Dialog closing is handled by MatDialog
   }
 }
+

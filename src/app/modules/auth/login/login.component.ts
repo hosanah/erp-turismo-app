@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
-import { MessageService } from 'primeng/api';
+// Removed: import { MessageService } from 'primeng/api';
+import { MatSnackBar } from '@angular/material/snack-bar'; // Added
 
 @Component({
   selector: 'app-login',
@@ -14,13 +15,15 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   isLoading = false;
   returnUrl: string = '/dashboard'; // Default redirect after login
+  hidePassword = true; // Added for password visibility toggle
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private messageService: MessageService
+    // Removed: private messageService: MessageService
+    private snackBar: MatSnackBar // Added
   ) {}
 
   ngOnInit(): void {
@@ -51,21 +54,25 @@ export class LoginComponent implements OnInit {
     this.authService.login(email, password).subscribe({
       next: () => {
         this.isLoading = false;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Login bem-sucedido',
-          detail: 'Redirecionando...'
+        // Replaced: this.messageService.add({...});
+        this.snackBar.open('Login bem-sucedido. Redirecionando...', 'Fechar', { // Added
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
         });
         this.router.navigate([this.returnUrl]);
       },
       error: (error) => {
         this.isLoading = false;
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro no Login',
-          detail: error.message || 'Ocorreu um erro ao tentar fazer login.'
+        // Replaced: this.messageService.add({...});
+        this.snackBar.open(error.message || 'Ocorreu um erro ao tentar fazer login.', 'Erro', { // Added
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['error-snackbar'] // Optional: for custom styling
         });
       }
     });
   }
 }
+
